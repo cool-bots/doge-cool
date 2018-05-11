@@ -8,3 +8,6 @@
 * rain command - /rain <amount> => return tx
 * balance command - /balance => balance
 * withdraw command - /withdraw <adress> <amount?> => return tx
+
+* Handle not enough funds
+* Handle not sending funds to myself

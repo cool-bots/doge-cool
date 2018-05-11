@@ -33,7 +33,7 @@ exports.rain = async (context, block_io, slackClient) => {
     const member = getRandomArrayElements(members, 1);
     // TODO real send
     await context.sendText(
-      `Congratulations <@/${member}> you just received ${amount} doge`
+      `Congratulations <@${member}> you just received ${amount} doge`
     );
   } else {
     console.log(",", members.length);
@@ -48,7 +48,7 @@ exports.rain = async (context, block_io, slackClient) => {
     });
     await context.sendText(
       `Congratulations ${members.map(
-        member => `<@/${member}>`
+        member => `<@${member}>`
       )} you just received ${amount /
         members.length} doge. Much rain, such wow!`
     );
