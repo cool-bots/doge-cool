@@ -11,3 +11,4 @@
 
 * Handle not enough funds
 * Handle not sending funds to myself
+* help function
