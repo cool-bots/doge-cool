@@ -1,18 +1,20 @@
-exports.tip = async (context, block_io) => {
+const { blockIo } = require('./blockio');
+
+exports.tip = async context => {
   let [, toLabel, amount] = context.event.text.split(" ");
   const myLabel = context.session.user.id;
   toLabel = toLabel.replace(/[<>@]/g, "");
 
-  block_io.withdraw_from_labels(
-    {
-      from_labels: myLabel,
-      to_label: toLabel,
-      amount: amount,
-      pin: process.env.BLOCK_IO_SECRET_PIN
-    },
-    (error, data) => {
-      if (error) return console.log("Error occured:", error.message);
-      console.log(data);
-    }
-  );
+  try {
+    const data = await blockIo.withdraw_from_labels(
+      {
+        from_labels: myLabel,
+        to_label: toLabel,
+        amount: amount,
+        pin: process.env.BLOCK_IO_SECRET_PIN
+      });
+    console.log(data);
+  } catch (e) {
+    console.log("Error occured:", error.message);
+  }
 };
