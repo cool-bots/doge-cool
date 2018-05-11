@@ -3,6 +3,7 @@ const { createServer } = require("bottender/express");
 const { SlackOAuthClient } = require("messaging-api-slack");
 const BlockIo = require("block_io");
 const dotenv = require("dotenv");
+const { deposit } = require("./deposit");
 const { withdraw } = require("./withdraw");
 
 dotenv.config();
@@ -16,20 +17,23 @@ const blockIo = new BlockIo(
 const slackClient = SlackOAuthClient.connect(process.env.SLACK_TOKEN);
 
 const bot = new SlackBot({
-  accessToken: process.env.SLACK_TOKEN
-  // verificationToken: process.env.SLACK_VERIFICATION_TOKEN,
+  accessToken: process.env.SLACK_TOKEN,
+  verificationToken: process.env.SLACK_VERIFICATION_TOKEN
 });
 
-const createAddresses = require('./createAddresses')(bot, blockIo);
+const createAddresses = require("./createAddresses")(slackClient, blockIo);
 
 bot.onEvent(async context => {
-  console.log(context);
   if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
+    console.log(context);
     // tip
     // rain
   } else if (context.event.isText) {
     // balance
-    // deposit
+    console.log(context.session);
+    if (/deposit/.test(context.event.text)) {
+      await deposit(context, blockIo);
+    }
     if (/\/withdraw/.test(context.event.text)) {
       await withdraw(context, blockIo);
     }
