@@ -2,7 +2,16 @@
   "name": "doge-cool",
   "private": true,
   "repository": "https://github.com/cool-bots/doge-cool.git",
+  "scripts": {
+    "prettier": "prettier --write src/index.js",
+    "precommit": "pretty-quick --staged"
+  },
   "dependencies": {
     "bottender": "^0.14.34"
+  },
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "prettier": "^1.12.1",
+    "pretty-quick": "^1.4.1"
   }
 }
