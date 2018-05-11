@@ -1,4 +1,7 @@
-exports.rain = async (context, block_io, slackClient) => {
+const { blockIo } = require('./blockio');
+const {slackClient} = require('./slackClient');
+
+exports.rain = async context => {
   const maxMembers = 5;
   const minCoins = 2;
   const userId = context.session.user.id;
