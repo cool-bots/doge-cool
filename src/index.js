@@ -6,6 +6,7 @@ const { withdraw } = require("./withdraw");
 const { balance } = require("./balance");
 const { tip } = require("./tip");
 const {createAddresses} = require("./createAddresses");
+const { rain } = require("./rain");
 
 dotenv.config();
 
@@ -20,6 +21,8 @@ bot.onEvent(async context => {
     console.log(context);
     if (/tip/.test(context.event.text)) {
       await tip(context);
+    } else if (/rain/.test(context.event.text)) {
+      await rain(context);
     }
   } else if (context.event.isText) {
     // balance
