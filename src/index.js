@@ -9,7 +9,7 @@ dotenv.config();
 const blockIo = new BlockIo(
   process.env.BLOCK_IO_API_KEY,
   process.env.BLOCK_IO_SECRET_PIN,
-  "2"
+  2
 );
 
 const slackClient = SlackOAuthClient.connect(process.env.SLACK_TOKEN);
