@@ -1,7 +1,7 @@
 module.exports = (bot, blockIo) => {
 
   const getAddresses = () => new Promise((resolve, reject) => {
-    blockIo.get_my_addresses_without_balances({}, (err, res) => {
+    blockIo.get_my_addresses({}, (err, res) => {
       if (err) {
         return reject(err);
       }
