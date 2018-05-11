@@ -3,6 +3,7 @@ const { createServer } = require("bottender/express");
 const { SlackOAuthClient } = require("messaging-api-slack");
 const BlockIo = require("block_io");
 const dotenv = require("dotenv");
+const { withdraw } = require("./withdraw");
 
 dotenv.config();
 
@@ -16,16 +17,20 @@ const slackClient = SlackOAuthClient.connect(process.env.SLACK_TOKEN);
 
 const bot = new SlackBot({
   accessToken: process.env.SLACK_TOKEN
+  // verificationToken: process.env.SLACK_VERIFICATION_TOKEN,
 });
 
 bot.onEvent(async context => {
+  console.log(context);
   if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
     // tip
     // rain
   } else if (context.event.isText) {
     // balance
     // deposit
-    // withdraw
+    if (/\/withdraw/.test(context.event.text)) {
+      await withdraw(context, blockIo);
+    }
   } else {
     await context.sentText("I do not understand.");
   }
