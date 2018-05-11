@@ -1,7 +1,4 @@
 exports.balance = async (context, BlockIo) => {
-  const balance = ;
-  await context.sentText('Your balance is ' + balance);
-
   BlockIo.get_address_by_label({
     label: 'default'
   }, (error, data) => {
