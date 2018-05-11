@@ -1,7 +1,7 @@
 module.exports = (bot, blockIo) => {
 
-  const getAddresses = (...args) => new Promise((resolve, reject) => {
-    blockIo.get_my_addresses_without_balances(...args, (err, res) => {
+  const getAddresses = () => new Promise((resolve, reject) => {
+    blockIo.get_my_addresses_without_balances({}, (err, res) => {
       if (err) {
         return reject(err);
       }
@@ -9,8 +9,8 @@ module.exports = (bot, blockIo) => {
     })
   });
 
-  const getNewAddress = (...args) => new Promise((resolve, reject) => {
-    blockIo.get_new_address(...args, (err, res) => {
+  const getNewAddress = () => new Promise((resolve, reject) => {
+    blockIo.get_new_address(undefined, (err, res) => {
       if (err) {
         return reject(err);
       }
@@ -19,7 +19,7 @@ module.exports = (bot, blockIo) => {
   });
 
   const createAddresses = async () => {
-    const addressesResponse = await getAddresses({});
+    const addressesResponse = await getAddresses();
     const addresses = addressesResponse.data.addresses;
     console.log('addr', addresses);
 
