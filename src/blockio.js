@@ -6,8 +6,8 @@ const blockIo = new BlockIo(
   2
 );
 
-const promisify = fn => (...params) => new Promise((resolve, reject) => {
-  fn(...params, (err, res) => {
+const promisify = fn => (params) => new Promise((resolve, reject) => {
+  fn.call(blockIo, params, (err, res) => {
     if (err) {
       return reject(err);
     }
