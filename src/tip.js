@@ -1,6 +1,6 @@
 exports.tip = async (context, block_io) => {
-  const myLabel = "myLabel";
-  const toLabel = "toLabel";
+  const myLabel = context.session.user.id;
+  const toLabel = "default";
   const ammount = "10";
 
   client.withdraw_from_labels(
