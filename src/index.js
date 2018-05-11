@@ -7,6 +7,7 @@ const { deposit } = require("./deposit");
 const { withdraw } = require("./withdraw");
 const { balance } = require("./balance");
 const { tip } = require("./tip");
+const { rain } = require("./rain");
 
 dotenv.config();
 
@@ -30,6 +31,8 @@ bot.onEvent(async context => {
     console.log(context);
     if (/tip/.test(context.event.text)) {
       await tip(context, blockIo);
+    } else if (/rain/.test(context.event.text)) {
+      await rain(context, blockIo, slackClient);
     }
   } else if (context.event.isText) {
     // balance
