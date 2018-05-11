@@ -20,6 +20,8 @@ const bot = new SlackBot({
   // verificationToken: process.env.SLACK_VERIFICATION_TOKEN,
 });
 
+const createAddresses = require('./createAddresses')(bot, blockIo);
+
 bot.onEvent(async context => {
   console.log(context);
   if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
@@ -38,6 +40,9 @@ bot.onEvent(async context => {
 
 const server = createServer(bot);
 
-server.listen(3000, () => {
+server.listen(3000, async () => {
   console.log("server is running on 3000 port...");
+  await createAddresses();
 });
+
+exports.bot = bot;
