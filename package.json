@@ -1,5 +1,8 @@
 {
   "name": "doge-cool",
   "private": true,
-  "repository": "https://github.com/cool-bots/doge-cool.git"
+  "repository": "https://github.com/cool-bots/doge-cool.git",
+  "dependencies": {
+    "bottender": "^0.14.34"
+  }
 }
