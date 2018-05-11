@@ -10,9 +10,11 @@ exports.tip = async (context, block_io) => {
       amount: amount,
       pin: process.env.BLOCK_IO_SECRET_PIN
     },
-    (error, data) => {
+    async (error, data) => {
       if (error) return console.log("Error occured:", error.message);
-      console.log(data);
+      await context.sendText(
+        `Congratulations <@${toLabel}> you just received ${amount} doge. Much wow!`
+      );
     }
   );
 };

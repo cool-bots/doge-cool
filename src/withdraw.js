@@ -1,5 +1,5 @@
 exports.withdraw = async (context, blockIo) => {
   // TODO get user address
   // TODO withdraw to address
-  await context.sentText("boom");
+  await context.sentText("Ehehehe no way!!");
 };

@@ -28,15 +28,12 @@ const createAddresses = require("./createAddresses")(slackClient, blockIo);
 
 bot.onEvent(async context => {
   if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
-    console.log(context);
     if (/tip/.test(context.event.text)) {
       await tip(context, blockIo);
     } else if (/rain/.test(context.event.text)) {
       await rain(context, blockIo, slackClient);
     }
   } else if (context.event.isText) {
-    // balance
-    console.log(context.event.text);
     if (/balance/.test(context.event.text)) {
       await balance(context, blockIo);
     }
@@ -46,15 +43,13 @@ bot.onEvent(async context => {
     if (/\/withdraw/.test(context.event.text)) {
       await withdraw(context, blockIo);
     }
-  } else {
-    await context.sentText("I do not understand.");
   }
 });
 
 const server = createServer(bot);
 
 server.listen(3000, async () => {
-  console.log("server is running on 3000 port...");
+  console.log("Much awesome! server is flipping on 3000 port...");
   await createAddresses();
 });
 

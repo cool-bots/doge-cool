@@ -28,7 +28,7 @@ exports.rain = async (context, block_io, slackClient) => {
   );
 
   if (amount < minCoins) {
-    await context.sendText(`No enough doge`);
+    await context.sendText(`Not enough doge :/`);
   } else if (amount === minCoins || amount < members.length * 2) {
     const member = getRandomArrayElements(members, 1);
     // TODO real send
@@ -49,7 +49,8 @@ exports.rain = async (context, block_io, slackClient) => {
     await context.sendText(
       `Congratulations ${members.map(
         member => `<@/${member}>`
-      )} you just received ${amount / members.length} doge`
+      )} you just received ${amount /
+        members.length} doge. Much rain, such wow!`
     );
   }
 };

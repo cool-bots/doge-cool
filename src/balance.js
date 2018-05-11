@@ -5,8 +5,9 @@ exports.balance = async (context, BlockIo) => {
     },
     async (error, data) => {
       if (error) return console.log("Error occured:", error.message);
-      console.log("Your account balance is", data);
-      await context.sendText(`Your balance is: ${data.data.available_balance}`);
+      await context.sendText(
+        `You currently have ${data.data.available_balance}`
+      );
     }
   );
 };
