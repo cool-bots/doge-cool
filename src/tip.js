@@ -1,13 +1,13 @@
 exports.tip = async (context, block_io) => {
+  let [, toLabel, amount] = context.event.text.split(" ");
   const myLabel = context.session.user.id;
-  const toLabel = "default";
-  const ammount = "10";
+  toLabel = toLabel.replace(/[<>@]/g, "");
 
-  client.withdraw_from_labels(
+  block_io.withdraw_from_labels(
     {
       from_labels: myLabel,
       to_label: toLabel,
-      amount: ammount,
+      amount: amount,
       pin: process.env.BLOCK_IO_SECRET_PIN
     },
     (error, data) => {

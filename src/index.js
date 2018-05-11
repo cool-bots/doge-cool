@@ -5,6 +5,8 @@ const BlockIo = require("block_io");
 const dotenv = require("dotenv");
 const { deposit } = require("./deposit");
 const { withdraw } = require("./withdraw");
+const { balance } = require("./balance");
+const { tip } = require("./tip");
 
 dotenv.config();
 
@@ -26,11 +28,15 @@ const createAddresses = require("./createAddresses")(slackClient, blockIo);
 bot.onEvent(async context => {
   if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
     console.log(context);
-    // tip
-    // rain
+    if (/tip/.test(context.event.text)) {
+      await tip(context, blockIo);
+    }
   } else if (context.event.isText) {
     // balance
-    console.log(context.session);
+    console.log(context.event.text);
+    if (/balance/.test(context.event.text)) {
+      await balance(context, blockIo);
+    }
     if (/deposit/.test(context.event.text)) {
       await deposit(context, blockIo);
     }

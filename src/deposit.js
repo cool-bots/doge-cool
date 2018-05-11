@@ -1,11 +1,12 @@
 exports.deposit = async (context, block_io) => {
   block_io.get_address_by_label(
     {
-      label: "default"
+      label: context.session.user.id
     },
-    (error, data) => {
+    async (error, data) => {
       if (error) return console.log("Error occured:", error.message);
       console.log("please deposit some doge$$$ to this address", data);
+      await context.sendText(`I do not understand. ${data.data.address}`);
     }
   );
 };

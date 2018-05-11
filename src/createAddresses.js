@@ -9,9 +9,9 @@ module.exports = (bot, blockIo) => {
       });
     });
 
-  const getNewAddress = () =>
+  const getNewAddress = x =>
     new Promise((resolve, reject) => {
-      blockIo.get_new_address(undefined, (err, res) => {
+      blockIo.get_new_address(x, (err, res) => {
         if (err) {
           return reject(err);
         }
