@@ -18,7 +18,18 @@ const bot = new SlackBot({
   accessToken: process.env.SLACK_TOKEN
 });
 
-bot.onEvent(async context => {});
+bot.onEvent(async context => {
+  if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
+    // tip
+    // rain
+  } else if (context.event.isText) {
+    // balance
+    // deposit
+    // withdraw
+  } else {
+    await context.sentText("I do not understand.");
+  }
+});
 
 const server = createServer(bot);
 
