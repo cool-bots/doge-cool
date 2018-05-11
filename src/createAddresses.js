@@ -1,8 +1,22 @@
-const {promisify} = require('util');
-
 module.exports = (bot, blockIo) => {
-  const getAddresses = promisify(blockIo.get_my_addresses_without_balances);
-  const getNewAddress = promisify(blockIo.get_new_address);
+
+  const getAddresses = (...args) => new Promise((resolve, reject) => {
+    blockIo.get_my_addresses_without_balances(...args, (err, res) => {
+      if (err) {
+        return reject(err);
+      }
+      return resolve(res);
+    })
+  });
+
+  const getNewAddress = (...args) => new Promise((resolve, reject) => {
+    blockIo.get_new_address(...args, (err, res) => {
+      if (err) {
+        return reject(err);
+      }
+      return resolve(res);
+    });
+  });
 
   const createAddresses = async () => {
     const addressesResponse = await getAddresses({});
