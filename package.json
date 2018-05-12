@@ -4,7 +4,8 @@
   "repository": "https://github.com/cool-bots/doge-cool.git",
   "scripts": {
     "prettier": "prettier --write src/index.js",
-    "precommit": "pretty-quick --staged"
+    "precommit": "pretty-quick --staged",
+    "start": "sh app.sh"
   },
   "dependencies": {
     "block_io": "^1.0.9-2",
