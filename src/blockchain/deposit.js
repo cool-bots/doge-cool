@@ -6,7 +6,7 @@ exports.deposit = async (context, block_io) => {
     async (error, data) => {
       if (error) return console.log("Error occured:", error.message);
       await context.sendText(
-        `Okay, please send some dogecoins here -> ${data.data.address}`
+        `Much doge! Please send some dogecoins here -> ${data.data.address}`
       );
     }
   );

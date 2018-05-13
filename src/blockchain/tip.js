@@ -1,3 +1,5 @@
+const utils = require("../lib/utils");
+
 exports.tip = async (context, block_io) => {
   let [, toLabel, amount] = context.event.text.split(" ");
   const myLabel = context.session.user.id;
@@ -13,7 +15,7 @@ exports.tip = async (context, block_io) => {
     async (error, data) => {
       if (error) return console.log("Error occured:", error.message);
       await context.sendText(
-        `Congratulations <@${toLabel}> you just received ${amount} doge. Much wow!`
+        `${utils.generateCongrats()} <@${toLabel}> you just received ${amount} doge. ${utils.generateWow()}`
       );
     }
   );

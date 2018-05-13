@@ -3,11 +3,11 @@ const { createServer } = require("bottender/express");
 const { SlackOAuthClient } = require("messaging-api-slack");
 const BlockIo = require("block_io");
 const dotenv = require("dotenv");
-const { deposit } = require("./deposit");
-const { withdraw } = require("./withdraw");
-const { balance } = require("./balance");
-const { tip } = require("./tip");
-const { rain } = require("./rain");
+const { deposit } = require("./blockchain/deposit");
+const { withdraw } = require("./blockchain/withdraw");
+const { balance } = require("./blockchain/balance");
+const { tip } = require("./blockchain/tip");
+const { rain } = require("./blockchain/rain");
 
 dotenv.config();
 
@@ -24,7 +24,10 @@ const bot = new SlackBot({
   verificationToken: process.env.SLACK_VERIFICATION_TOKEN
 });
 
-const createAddresses = require("./createAddresses")(slackClient, blockIo);
+const createAddresses = require("./blockchain/createAddresses")(
+  slackClient,
+  blockIo
+);
 
 bot.onEvent(async context => {
   if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
@@ -49,7 +52,24 @@ bot.onEvent(async context => {
 const server = createServer(bot);
 
 server.listen(3000, async () => {
-  console.log("Much awesome! server is flipping on 3000 port...");
+  console.log(`
+    very pretty!          such cool!          more plz!
+        much awesome
+    wow                       very nodeJS
+  
+    __  __            _      __          ________          ___ 
+   |  \\/  |          | |     \\ \\        / / __ \\ \\        / / |
+   | \\  / |_   _  ___| |__    \\ \\  /\\  / / |  | \\ \\  /\\  / /| |
+   | |\\/| | | | |/ __| '_ \\    \\ \\/  \\/ /| |  | |\\ \\/  \\/ / | |
+   | |  | | |_| | (__| | | |    \\  /\\  / | |__| | \\  /\\  /  |_|
+   |_|  |_|\\__,_|\\___|_| |_|     \\/  \\/   \\____/   \\/  \\/   (_)
+                                                               
+                  wow                   code plz                      
+        epic bot        much rain                       very terminal
+   very swag!                                so wow!
+  `);
+
+  console.log("Much awesome! server is flipping on port 3000.");
   await createAddresses();
 });
 
