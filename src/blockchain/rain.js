@@ -1,17 +1,4 @@
-const getRandomArrayElements = (arr, count) => {
-  let shuffled = arr.slice(0),
-    i = arr.length,
-    min = i - count,
-    temp,
-    index;
-  while (i-- > min) {
-    index = Math.floor((i + 1) * Math.random());
-    temp = shuffled[index];
-    shuffled[index] = shuffled[i];
-    shuffled[i] = temp;
-  }
-  return shuffled.slice(min);
-};
+const utils = require("../lib/utils");
 
 exports.rain = async (context, block_io, slackClient) => {
   const maxMembers = 5;
@@ -28,29 +15,32 @@ exports.rain = async (context, block_io, slackClient) => {
   );
 
   if (amount < minCoins) {
-    await context.sendText(`Not enough doge :/`);
+    await context.sendText(`Much sad! Not enough doge :( `);
   } else if (amount === minCoins || amount < members.length * 2) {
-    const member = getRandomArrayElements(members, 1);
+    const member = utils.getRandomArrayElements(members, 1);
     // TODO real send
     await context.sendText(
-      `Congratulations <@${member}> you just received ${amount} doge`
+      `${utils.generateCongrats()} <@${member}> you just received ${amount} doge. ${utils.generateWow()}`
     );
   } else {
     console.log(",", members.length);
     if (members.length > maxMembers) {
-      members = getRandomArrayElements(members, 5);
+      members = utils.getRandomArrayElements(members, 5);
     } else {
-      members = getRandomArrayElements(members, Math.round(members.length / 2));
+      members = utils.getRandomArrayElements(
+        members,
+        Math.round(members.length / 2)
+      );
     }
     members.forEach(member => {
       // TODO send transaction
       console.log(member, amount / members.length);
     });
     await context.sendText(
-      `Congratulations ${members.map(
+      `${utils.generateCongrats()} ${members.map(
         member => `<@${member}>`
       )} you just received ${amount /
-        members.length} doge. Much rain, such wow!`
+        members.length} doge. ${utils.generateWow()}`
     );
   }
 };
