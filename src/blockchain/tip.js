@@ -1,7 +1,7 @@
 const utils = require("../lib/utils");
 
 exports.tip = async (context, block_io) => {
-  let [, toLabel, amount] = context.event.text.split(" ");
+  let [, , toLabel, amount] = context.event.text.split(" ");
   const myLabel = context.session.user.id;
   toLabel = toLabel.replace(/[<>@]/g, "");
 
