@@ -1,4 +1,4 @@
-const utils = require("../lib/util");
+const utils = require("../lib/utils");
 
 exports.balance = async (context, BlockIo) => {
   BlockIo.get_address_by_label(
