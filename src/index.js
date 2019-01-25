@@ -32,11 +32,13 @@ const createAddresses = require("./blockchain/createAddresses")(
 bot.onEvent(async context => {
   if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
     if (/tip/.test(context.event.text)) {
+      // valid only in public channels
       await tip(context, blockIo);
     } else if (/rain/.test(context.event.text)) {
       await rain(context, blockIo, slackClient);
     }
   } else if (context.event.isText) {
+    // valid only for private messages
     if (/balance/.test(context.event.text)) {
       await balance(context, blockIo);
     }
