@@ -5,20 +5,18 @@ exports.random = async (context, block_io, slackClient) => {
   const userId = context.session.user.id;
   const channelId = context.session.channel.id;
   let members = await slackClient.getAllConversationMembers(channelId);
-  let [, amount] = context.event.text.split(" ");
+  let [, , amount] = context.event.text.split(" ");
   amount = Number(amount);
 
   // Remove the current user and the bot so it does not get a shower
   members = members.filter(
-    member => member !== userId && member !== process.env.SLACK_APP_ID
+    member => member !== userId && member !== process.env.BOT_USER_ID
   );
 
   if (amount < minCoins) {
     await context.sendText(`Much sad! Not enough doge :( `);
   } else {
     const member = utils.getRandomArrayElements(members, 1);
-    console.log(member);
-    console.log(amount);
     block_io.withdraw_from_labels(
       {
         from_labels: context.session.user.id,
