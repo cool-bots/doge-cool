@@ -34,8 +34,8 @@ bot.onEvent(async context => {
   if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
     // Unless @cooldoge is mentioned, don't react
     if (process.env.BOT_USER_ID) {
-      const re = new RegExp(`<@>${process.env.BOT_USER_ID}`);
-      if (re.test(context.event.text)) {
+      const re = new RegExp(`<@${process.env.BOT_USER_ID}>`);
+      if (!re.test(context.event.text)) {
         return;
       }
     }
