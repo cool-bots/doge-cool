@@ -3,12 +3,15 @@
 ## TODO
 
 * create users wallets on startup with labels are slack user id
-* deposit command - /deposit => return address
-* tip command - /tip <username> <amount> => return tx
-* rain command - /rain <amount> => return tx
-* balance command - /balance => balance
-* withdraw command - /withdraw <adress> <amount?> => return tx
 
-* Handle not enough funds
-* Handle not sending funds to myself
-* help function
+### In public / private channels
+
+* `tip <username> <amount>` - gives amount to specified user
+* `rain <amount>` - Divides amount equally between participants (currently max. 5)
+* `random <amount>` - Randomly awards one person the specified amount
+
+### In `@cooldoge` private DM
+
+* `deposit` - return address
+* `balance` - shows balance
+* `withdraw <adress> <amount?>` - withdraws to address

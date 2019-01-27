@@ -8,6 +8,7 @@ const { withdraw } = require("./blockchain/withdraw");
 const { balance } = require("./blockchain/balance");
 const { tip } = require("./blockchain/tip");
 const { rain } = require("./blockchain/rain");
+const { random } = require("./blockchain/random");
 
 dotenv.config();
 
@@ -36,6 +37,8 @@ bot.onEvent(async context => {
       await tip(context, blockIo);
     } else if (/rain/.test(context.event.text)) {
       await rain(context, blockIo, slackClient);
+    } else if (/random/.test(context.event.text)) {
+      await random(context, blockIo, slackClient);
     }
   } else if (context.event.isText) {
     // valid only for private messages
