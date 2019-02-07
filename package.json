@@ -3,7 +3,8 @@
   "private": true,
   "repository": "https://github.com/cool-bots/doge-cool.git",
   "scripts": {
-    "prettier": "prettier --write src/index.js",
+    "dev": "nodemon --watch src src/index.js",
+    "prettier": "prettier --write '**/*.{js,ts,tsx,json,md}'",
     "precommit": "pretty-quick --staged",
     "start": "sh app.sh"
   },
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "husky": "^0.14.3",
+    "nodemon": "1.18.9",
     "prettier": "^1.12.1",
     "pretty-quick": "^1.4.1"
   }
