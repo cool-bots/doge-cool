@@ -30,25 +30,12 @@ const createAddresses = require("./blockchain/createAddresses")(
 );
 
 bot.onEvent(async context => {
-  // Public / Private channels
   if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
-    // Unless @cooldoge is mentioned, don't react
-    if (process.env.BOT_USER_ID) {
-      const re = new RegExp(`<@${process.env.BOT_USER_ID}>`);
-      if (!re.test(context.event.text)) {
-        return;
-      }
-    }
-
-    // console.log(context);
     if (/tip/.test(context.event.text)) {
-      // valid only in public channels
       await tip(context, blockIo);
     } else if (/rain/.test(context.event.text)) {
       await rain(context, blockIo, slackClient);
     }
-
-    // DM with @cooldoge
   } else if (context.event.isText) {
     if (/balance/.test(context.event.text)) {
       await balance(context, blockIo);
