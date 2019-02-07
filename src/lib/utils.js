@@ -2,6 +2,9 @@ const muchSentences = require("./muchSentences.json");
 const muchCongrats = require("./muchCongrats.json");
 
 const getRandomArrayElements = (arr, count) => {
+  if (arr.length <= count) {
+    return arr;
+  }
   let shuffled = arr.slice(0),
     i = arr.length,
     min = i - count,

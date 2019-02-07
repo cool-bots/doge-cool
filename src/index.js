@@ -9,6 +9,7 @@ const { balance } = require("./blockchain/balance");
 const { tip } = require("./blockchain/tip");
 const { rain } = require("./blockchain/rain");
 const { help } = require("./blockchain/help");
+const { random } = require("./blockchain/random");
 
 dotenv.config();
 
@@ -31,15 +32,27 @@ const createAddresses = require("./blockchain/createAddresses")(
 );
 
 bot.onEvent(async context => {
+  // Public / Private channels
   if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
+    // Unless @cooldoge is mentioned, don't react
+
+    console.log(context.event);
+    if (!context.event.text.includes(`<@${process.env.BOT_USER_ID}>`)) {
+      return;
+    }
+
     if (/tip/.test(context.event.text)) {
       // valid only in public channels
+      console.log("fooo");
       await tip(context, blockIo);
     } else if (/rain/.test(context.event.text)) {
       await rain(context, blockIo, slackClient);
+    } else if (/random/.test(context.event.text)) {
+      await random(context, blockIo, slackClient);
     }
+
+    // DM with @cooldoge
   } else if (context.event.isText) {
-    // valid only for private messages
     if (/balance/.test(context.event.text)) {
       await balance(context, blockIo);
     } else if (/deposit/.test(context.event.text)) {

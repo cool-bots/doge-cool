@@ -1,69 +1,59 @@
 const utils = require("../lib/utils");
 
+const validateAmount = amount => amount && amount > 0;
+
 exports.rain = async (context, block_io, slackClient) => {
   const maxMembers = 5;
-  const minCoins = 2;
+  const minCoinsPerMember = 2;
   const userId = context.session.user.id;
+  const botMemberId = process.env.BOT_CHANNEL_MEMBER_ID;
+  const botId = process.env.BOT_USER_ID;
   const channelId = context.session.channel.id;
-  let members = await slackClient.getAllConversationMembers(channelId);
-  let [, , amount] = context.event.text.split(" ");
-  amount = Number(amount);
+  const [, , rawAmount] = context.event.text.split(" ");
+  const amount = Number(parseFloat(rawAmount));
+  if (!validateAmount(amount)) {
+    return await context.sendText(`:( Amount not valid`);
+  }
+  const members = await slackClient.getAllConversationMembers(channelId);
+  const filteredMembers = members
+    .filter(member => member !== userId)
+    .filter(member => member !== botMemberId)
+    .filter(member => member !== botId);
 
-  // Remove the current user and the bot so it does not get a shower
-  members = members.filter(
-    member => member !== userId && member !== process.env.SLACK_APP_ID
+  const pickedMembers = utils.getRandomArrayElements(
+    filteredMembers,
+    maxMembers
   );
 
-  if (amount < minCoins) {
-    await context.sendText(`Much sad! Not enough doge :( `);
-  } else if (amount === minCoins || amount < members.length * 2) {
-    const member = utils.getRandomArrayElements(members, 1);
-    block_io.withdraw_from_labels(
-      {
-        from_labels: context.session.user.id,
-        to_label: member,
-        amount: amount,
-        pin: process.env.BLOCK_IO_SECRET_PIN
-      },
-      async (error, data) => {
-        console.log(data);
-        if (error) return console.log("Error occured:", error.message);
-        await context.sendText(
-          `${utils.generateCongrats()} <@${member}> you just received ${amount} doge. ${utils.generateWow()}`
-        );
+  if (amount < pickedMembers.length * minCoinsPerMember) {
+    return await context.sendText(`You are too stingy`);
+  }
+
+  console.log("the bot id", botId);
+  console.log("the user id", userId);
+  console.log("the members", pickedMembers.join());
+
+  block_io.withdraw_from_labels(
+    {
+      from_labels: context.session.user.id,
+      to_labels: pickedMembers.join(), //'member,member,member'
+      amounts: new Array(pickedMembers.length)
+        .fill(amount / pickedMembers.length)
+        .join(), //''6,6,6'
+      pin: process.env.BLOCK_IO_SECRET_PIN
+    },
+    async (error, data) => {
+      // error.message
+      if (error) {
+        console.log(error);
+        return await context.sendText(`Oh no!!! ${error.message}`);
       }
-    );
-  } else {
-    console.log(",", members.length);
-    if (members.length > maxMembers) {
-      members = utils.getRandomArrayElements(members, 5);
-    } else {
-      members = utils.getRandomArrayElements(
-        members,
-        Math.round(members.length / 2)
+      return await context.sendText(
+        `${utils.generateCongrats()} ${pickedMembers.map(
+          member => `<@${member}>`
+        )} you just received ${amount /
+          pickedMembers.length} doge. ${utils.generateWow()}`
       );
     }
-    console.log(members, amount / members.length);
-    console.log(
-      `Sending to ${members.join()} , ${amount / members.length} doge each!`
-    );
-
-    block_io.withdraw_from_labels(
-      {
-        from_labels: context.session.user.id,
-        to_labels: members.join(), //member,
-        amounts: new Array(members.length).fill(amount / members.length).join(), //amount / members.length,
-        pin: process.env.BLOCK_IO_SECRET_PIN
-      },
-      async (error, data) => {
-        if (error) return console.log("Error occured:", error.message);
-      }
-    );
-    await context.sendText(
-      `${utils.generateCongrats()} ${members.map(
-        member => `<@${member}>`
-      )} you just received ${amount /
-        members.length} doge. ${utils.generateWow()}`
-    );
-  }
+  );
 };
