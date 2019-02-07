@@ -16,11 +16,11 @@ const getRandomArrayElements = (arr, count) => {
   return shuffled.slice(min);
 };
 
-const generateWow = async () => {
+const generateWow = () => {
   return getRandomArrayElements(muchSentences, 1);
 };
 
-const generateCongrats = async () => {
+const generateCongrats = () => {
   return getRandomArrayElements(muchCongrats, 1);
 };
 
