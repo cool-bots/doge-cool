@@ -8,6 +8,7 @@ const { withdraw } = require("./blockchain/withdraw");
 const { balance } = require("./blockchain/balance");
 const { tip } = require("./blockchain/tip");
 const { rain } = require("./blockchain/rain");
+const { help } = require("./blockchain/help");
 const { random } = require("./blockchain/random");
 
 dotenv.config();
@@ -54,12 +55,15 @@ bot.onEvent(async context => {
   } else if (context.event.isText) {
     if (/balance/.test(context.event.text)) {
       await balance(context, blockIo);
-    }
-    if (/deposit/.test(context.event.text)) {
+    } else if (/deposit/.test(context.event.text)) {
       await deposit(context, blockIo);
-    }
-    if (/\/withdraw/.test(context.event.text)) {
+    } else if (/\/withdraw/.test(context.event.text)) {
       await withdraw(context, blockIo);
+    } else if (/help/.test(context.event.text)) {
+      await help(context);
+    } else {
+      await context.sendText("Much confused");
+      await help(context);
     }
   }
 });
