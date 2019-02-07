@@ -11,7 +11,7 @@ exports.rain = async (context, block_io, slackClient) => {
 
   // Remove the current user and the bot so it does not get a shower
   members = members.filter(
-    member => member !== userId && member !== process.env.SLACK_APP_ID
+    member => member !== userId && member !== process.env.BOT_USER_ID
   );
 
   if (amount < minCoins) {
