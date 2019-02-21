@@ -1,7 +1,7 @@
-import muchSentences from './muchSentences.json';
-import muchCongrats from './muchCongrats.json';
+const muchSentences = require('./muchSentences.json');
+const muchCongrats = require('./muchCongrats.json');
 
-export const getRandomArrayElements = (arr: any[], count: number) => {
+const getRandomArrayElements = (arr, count) => {
   if (arr.length <= count) {
     return arr;
   }
@@ -20,10 +20,16 @@ export const getRandomArrayElements = (arr: any[], count: number) => {
   return shuffled.slice(min);
 };
 
-export const generateWow = () => {
+const generateWow = () => {
   return getRandomArrayElements(muchSentences, 1);
 };
 
-export const generateCongrats = () => {
+const generateCongrats = () => {
   return getRandomArrayElements(muchCongrats, 1);
+};
+
+module.exports = {
+  getRandomArrayElements,
+  generateWow,
+  generateCongrats,
 };
