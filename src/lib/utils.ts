@@ -2,6 +2,10 @@ import muchSentences from './muchSentences.json';
 import muchCongrats from './muchCongrats.json';
 
 export const getRandomArrayElements = (arr: any[], count: number) => {
+  if (arr.length <= count) {
+    return arr;
+  }
+
   let shuffled = arr.slice(0),
     i = arr.length,
     min = i - count,
