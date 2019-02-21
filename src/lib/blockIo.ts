@@ -1,3 +1,4 @@
+// @ts-ignore
 import BlockIo from 'block_io';
 
 const blockIo = new BlockIo(

@@ -12,7 +12,7 @@ exports.rain = async (context, block_io, slackClient) => {
   const [, , rawAmount] = context.event.text.split(' ');
   const amount = Number(parseFloat(rawAmount));
   if (!validateAmount(amount)) {
-    return await context.sendText(`:( Amount not valid`);
+    return context.sendText(`:( Amount not valid`);
   }
   const members = await slackClient.getAllConversationMembers(channelId);
   const filteredMembers = members
@@ -45,10 +45,15 @@ exports.rain = async (context, block_io, slackClient) => {
     async (error, data) => {
       // error.message
       if (error) {
-        console.log(error);
-        return await context.sendText(`Oh no!!! ${error.message}`);
+        let errorToThrow = error;
+
+        if (error.message.includes('Maximum withdrawable balance is')) {
+          errorToThrow = `You don't have enough funds! Please DM me to top up your balance...`;
+        }
+
+        return context.sendText(`Oh no!!! ${errorToThrow}`);
       }
-      return await context.sendText(
+      return context.sendText(
         `${utils.generateCongrats()} ${pickedMembers.map(
           member => `<@${member}>`
         )} you just received ${amount /

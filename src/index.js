@@ -37,13 +37,15 @@ bot.onEvent(async context => {
     // Unless @cooldoge is mentioned, don't react
 
     console.log(context.event);
-    if (!context.event.text.includes(`<@${process.env.BOT_USER_ID}>`)) {
+    if (
+      !context.event.text &&
+      !context.event.text.includes(`<@${process.env.BOT_USER_ID}>`)
+    ) {
       return;
     }
 
     if (/tip/.test(context.event.text)) {
       // valid only in public channels
-      console.log('fooo');
       await tip(context, blockIo);
     } else if (/rain/.test(context.event.text)) {
       await rain(context, blockIo, slackClient);
