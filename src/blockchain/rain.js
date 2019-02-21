@@ -1,4 +1,4 @@
-const utils = require("../lib/utils");
+const utils = require('../lib/utils');
 
 const validateAmount = amount => amount && amount > 0;
 
@@ -9,7 +9,7 @@ exports.rain = async (context, block_io, slackClient) => {
   const botMemberId = process.env.BOT_CHANNEL_MEMBER_ID;
   const botId = process.env.BOT_USER_ID;
   const channelId = context.session.channel.id;
-  const [, , rawAmount] = context.event.text.split(" ");
+  const [, , rawAmount] = context.event.text.split(' ');
   const amount = Number(parseFloat(rawAmount));
   if (!validateAmount(amount)) {
     return await context.sendText(`:( Amount not valid`);
@@ -29,9 +29,9 @@ exports.rain = async (context, block_io, slackClient) => {
     return await context.sendText(`You are too stingy`);
   }
 
-  console.log("the bot id", botId);
-  console.log("the user id", userId);
-  console.log("the members", pickedMembers.join());
+  console.log('the bot id', botId);
+  console.log('the user id', userId);
+  console.log('the members', pickedMembers.join());
 
   block_io.withdraw_from_labels(
     {
@@ -40,7 +40,7 @@ exports.rain = async (context, block_io, slackClient) => {
       amounts: new Array(pickedMembers.length)
         .fill(amount / pickedMembers.length)
         .join(), //''6,6,6'
-      pin: process.env.BLOCK_IO_SECRET_PIN
+      pin: process.env.BLOCK_IO_SECRET_PIN,
     },
     async (error, data) => {
       // error.message
