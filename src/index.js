@@ -51,6 +51,8 @@ bot.onEvent(async context => {
       await rain(context, blockIo, slackClient);
     } else if (/random/.test(context.event.text)) {
       await random(context, blockIo, slackClient);
+    } else if (/help/.test(context.event.text)) {
+      await help(context);
     }
 
     // DM with @cooldoge
