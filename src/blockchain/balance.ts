@@ -1,6 +1,6 @@
 import { Context } from '../types/bottender';
 import { getAddressByLabel } from '../lib/blockIo';
-import utils from '../lib/utils';
+import * as utils from '../lib/utils';
 
 export const balance = async (context: Context) => {
   const label = context.session.user.id;

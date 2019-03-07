@@ -1,5 +1,5 @@
 import { Context } from '../types/bottender';
-import utils from '../lib/utils';
+import * as utils from '../lib/utils';
 
 exports.random = async (context: Context, block_io: any, slackClient: any) => {
   const minCoins = 2;

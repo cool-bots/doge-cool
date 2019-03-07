@@ -1,5 +1,5 @@
 import { Context } from '../types/bottender';
-import utils from '../lib/utils';
+import * as utils from '../lib/utils';
 
 const validateAmount = (amount: number | undefined) => amount && amount > 0;
 

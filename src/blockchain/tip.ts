@@ -1,4 +1,4 @@
-import utils from '../lib/utils';
+import * as utils from '../lib/utils';
 import { Context } from '../types/bottender';
 
 exports.tip = async (context: Context, block_io: any) => {
