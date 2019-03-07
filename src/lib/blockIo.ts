@@ -1,3 +1,4 @@
+// @ts-ignore
 import BlockIo from 'block_io';
 
 const blockIo = new BlockIo(
@@ -12,4 +13,15 @@ export const getNewAddress = (x: any): Promise<any> =>
       if (error) return reject(error);
       resolve(data);
     });
+  });
+
+export const getAddressByLabel = (label: string): Promise<any> =>
+  new Promise((resolve, reject) => {
+    blockIo.get_address_by_label(
+      { label },
+      (error: Error | undefined, data: any) => {
+        if (error) return reject(error);
+        resolve(data);
+      }
+    );
   });
