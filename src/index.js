@@ -44,26 +44,26 @@ bot.onEvent(async context => {
       return;
     }
 
-    if (/tip/.test(context.event.text)) {
+    if (/tip/i.test(context.event.text)) {
       // valid only in public channels
       await tip(context, blockIo);
-    } else if (/rain/.test(context.event.text)) {
+    } else if (/rain/i.test(context.event.text)) {
       await rain(context, blockIo, slackClient);
-    } else if (/random/.test(context.event.text)) {
+    } else if (/random/i.test(context.event.text)) {
       await random(context, blockIo, slackClient);
-    } else if (/help/.test(context.event.text)) {
+    } else if (/help/i.test(context.event.text)) {
       await help(context);
     }
 
     // DM with @cooldoge
   } else if (context.event.isText) {
-    if (/balance/.test(context.event.text)) {
+    if (/balance/i.test(context.event.text)) {
       await balance(context, blockIo);
-    } else if (/deposit/.test(context.event.text)) {
+    } else if (/deposit/i.test(context.event.text)) {
       await deposit(context, blockIo);
-    } else if (/\/withdraw/.test(context.event.text)) {
+    } else if (/\/withdraw/i.test(context.event.text)) {
       await withdraw(context, blockIo);
-    } else if (/help/.test(context.event.text)) {
+    } else if (/help/i.test(context.event.text)) {
       await help(context);
     } else {
       await context.sendText('Much confused');
