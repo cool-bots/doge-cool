@@ -5,7 +5,7 @@ export const help = async (context: Context) => {
     `Much useful. Very help. 
     
     - to tip:
-    @cooldoge tip 10 @alessio
+    @cooldoge tip @alessio 10
     
     - to rain:
     @cooldoge rain
