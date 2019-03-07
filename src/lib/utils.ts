@@ -1,7 +1,7 @@
 const muchSentences = require('./muchSentences.json');
 const muchCongrats = require('./muchCongrats.json');
 
-const getRandomArrayElements = (arr, count) => {
+const getRandomArrayElements = (arr: any, count: any) => {
   if (arr.length <= count) {
     return arr;
   }

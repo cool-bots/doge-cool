@@ -1,7 +1,7 @@
-module.exports = (bot, blockIo) => {
+module.exports = (bot: any, blockIo: any) => {
   const getAddresses = () =>
     new Promise((resolve, reject) => {
-      blockIo.get_my_addresses({}, (err, res) => {
+      blockIo.get_my_addresses({}, (err: any, res: any) => {
         if (err) {
           return reject(err);
         }
@@ -9,9 +9,9 @@ module.exports = (bot, blockIo) => {
       });
     });
 
-  const getNewAddress = x =>
+  const getNewAddress = (x: any) =>
     new Promise((resolve, reject) => {
-      blockIo.get_new_address(x, (err, res) => {
+      blockIo.get_new_address(x, (err: any, res: any) => {
         if (err) {
           return reject(err);
         }
@@ -20,17 +20,17 @@ module.exports = (bot, blockIo) => {
     });
 
   const createAddresses = async () => {
-    const addressesResponse = await getAddresses();
+    const addressesResponse: any = await getAddresses();
     const addresses = addressesResponse.data.addresses;
     // const {members} = await bot.getAllUserList();
-    const members = await bot.getAllConversationMembers("GANB38LD8");
-    const existingLabels = addresses.map(a => a.label);
+    const members = await bot.getAllConversationMembers('GANB38LD8');
+    const existingLabels = addresses.map((a: any) => a.label);
     const addresslessMembers = members.filter(
-      m => !existingLabels.includes(m /*.id*/)
+      (m: any) => !existingLabels.includes(m /*.id*/)
     );
 
     return Promise.all(
-      addresslessMembers.map(m => getNewAddress({ label: m /*.id*/ }))
+      addresslessMembers.map((m: any) => getNewAddress({ label: m /*.id*/ }))
     );
   };
 

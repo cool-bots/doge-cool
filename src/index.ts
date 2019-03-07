@@ -1,3 +1,5 @@
+import { Context } from './types/bottender';
+
 const { SlackBot } = require('bottender');
 const { createServer } = require('bottender/express');
 const { SlackOAuthClient } = require('messaging-api-slack');
@@ -42,7 +44,7 @@ const commands = {
   random: random,
 };
 
-bot.onEvent(async context => {
+bot.onEvent(async (context: Context) => {
   let command;
   let commandText;
 
