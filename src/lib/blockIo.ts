@@ -1,11 +1,11 @@
 // @ts-ignore
 import BlockIo from 'block_io';
 
-const blockIo = new BlockIo(
-  process.env.BLOCK_IO_API_KEY,
-  process.env.BLOCK_IO_SECRET_PIN,
-  2
-);
+const blockIo = new BlockIo({
+  api_key: process.env.BLOCK_IO_API_KEY,
+  pin: process.env.BLOCK_IO_SECRET_PIN,
+  version: 2,
+});
 
 export const getNewAddress = (x: any): Promise<any> =>
   new Promise((resolve, reject) => {

@@ -1,10 +1,13 @@
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 import { Context } from './types/bottender';
 
 const { SlackBot } = require('bottender');
 const { createServer } = require('bottender/express');
 const { SlackOAuthClient } = require('messaging-api-slack');
 const BlockIo = require('block_io');
-const dotenv = require('dotenv');
 const { pick } = require('lodash');
 const { deposit } = require('./blockchain/deposit');
 const { withdraw } = require('./blockchain/withdraw');
@@ -13,8 +16,6 @@ const { tip } = require('./blockchain/tip');
 const { rain } = require('./blockchain/rain');
 const { help } = require('./blockchain/help');
 const { random } = require('./blockchain/random');
-
-dotenv.config();
 
 const blockIo = new BlockIo(
   process.env.BLOCK_IO_API_KEY,
