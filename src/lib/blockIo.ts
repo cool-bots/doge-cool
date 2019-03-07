@@ -25,3 +25,27 @@ export const getAddressByLabel = (label: string): Promise<any> =>
       }
     );
   });
+
+export const withdrawFromLabels = ({
+  fromLabels,
+  toLabel,
+  amount,
+}: {
+  fromLabels: string;
+  toLabel: string;
+  amount: number | string;
+}): Promise<any> =>
+  new Promise((resolve, reject) => {
+    blockIo.withdraw_from_labels(
+      {
+        from_labels: fromLabels,
+        to_label: toLabel,
+        amount: amount,
+        pin: process.env.BLOCK_IO_SECRET_PIN,
+      },
+      (error: Error | undefined, data: any) => {
+        if (error) return reject(error);
+        resolve(data);
+      }
+    );
+  });

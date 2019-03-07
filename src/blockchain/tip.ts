@@ -1,5 +1,6 @@
 import * as utils from '../lib/utils';
 import { Context } from '../types/bottender';
+import { withdrawFromLabels } from '../lib/blockIo';
 
 exports.tip = async (context: Context, block_io: any) => {
   let [, , toLabel, amount] = context.event.text.split(' ');
@@ -12,30 +13,24 @@ exports.tip = async (context: Context, block_io: any) => {
     );
   }
 
-  block_io.withdraw_from_labels(
-    {
-      from_labels: myLabel,
-      to_label: toLabel,
+  try {
+    await withdrawFromLabels({
+      fromLabels: myLabel,
+      toLabel: toLabel,
       amount: amount,
-      pin: process.env.BLOCK_IO_SECRET_PIN,
-    },
-    async (error: any, data: any) => {
-      if (error) {
-        let errorToThrow = error;
+    });
 
-        if (
-          error.message.includes(
-            'One or more destination labels do not exist on your account'
-          )
-        ) {
-          errorToThrow = `I didn't find the user... :(`;
-        }
-        return context.sendText(`Oh no!!! ${errorToThrow}`);
-      }
-
-      await context.sendText(
-        `${utils.generateCongrats()} <@${toLabel}> you just received ${amount} doge. ${utils.generateWow()}`
-      );
+    await context.sendText(
+      `${utils.generateCongrats()} <@${toLabel}> you just received ${amount} doge. ${utils.generateWow()}`
+    );
+  } catch (error) {
+    if (
+      error.message.includes(
+        'One or more destination labels do not exist on your account'
+      )
+    ) {
+      error = `I didn't find the user... :(`;
     }
-  );
+    return context.sendText(`Oh no!!! ${error}`);
+  }
 };
