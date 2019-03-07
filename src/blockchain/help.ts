@@ -1,4 +1,6 @@
-exports.help = async context => {
+import { Context } from '../types/bottender';
+
+export const help = async (context: Context) => {
   await context.sendText(
     `Much useful. Very help. 
     

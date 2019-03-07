@@ -3,6 +3,7 @@ const { createServer } = require('bottender/express');
 const { SlackOAuthClient } = require('messaging-api-slack');
 const BlockIo = require('block_io');
 const dotenv = require('dotenv');
+const { pick } = require('lodash');
 const { deposit } = require('./blockchain/deposit');
 const { withdraw } = require('./blockchain/withdraw');
 const { balance } = require('./blockchain/balance');
@@ -31,12 +32,22 @@ const createAddresses = require('./blockchain/createAddresses')(
   blockIo
 );
 
+const commands = {
+  balance: balance,
+  deposit: deposit,
+  withdraw: withdraw,
+  help: help,
+  tip: tip,
+  rain: rain,
+};
+
 bot.onEvent(async context => {
+  let command;
+  let commandText;
+
   // Public / Private channels
   if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
     // Unless @cooldoge is mentioned, don't react
-
-    console.log(context.event);
     if (
       !context.event.text &&
       !context.event.text.includes(`<@${process.env.BOT_USER_ID}>`)
@@ -44,31 +55,35 @@ bot.onEvent(async context => {
       return;
     }
 
-    if (/tip/i.test(context.event.text)) {
-      // valid only in public channels
-      await tip(context, blockIo);
-    } else if (/rain/i.test(context.event.text)) {
-      await rain(context, blockIo, slackClient);
-    } else if (/random/i.test(context.event.text)) {
-      await random(context, blockIo, slackClient);
-    } else if (/help/i.test(context.event.text)) {
-      await help(context);
-    }
+    commandText = context.event.text
+      .trim()
+      .split(' ')[1]
+      .toLowerCase();
+
+    command = pick(commands, ['tip', 'rain', 'random', 'help'])[commandText];
 
     // DM with @cooldoge
   } else if (context.event.isText) {
-    if (/balance/i.test(context.event.text)) {
-      await balance(context, blockIo);
-    } else if (/deposit/i.test(context.event.text)) {
-      await deposit(context, blockIo);
-    } else if (/\/withdraw/i.test(context.event.text)) {
-      await withdraw(context, blockIo);
-    } else if (/help/i.test(context.event.text)) {
-      await help(context);
-    } else {
-      await context.sendText('Much confused');
-      await help(context);
-    }
+    commandText = context.event.text
+      .trim()
+      .split(' ')[0]
+      .toLowerCase();
+    command = pick(commands, ['balance', 'deposit', 'withdraw', 'help'])[
+      commandText
+    ];
+  } else {
+    return;
+  }
+
+  console.log('context.event.text', context.event.text);
+  console.log('commandText', commandText);
+  console.log('command', !!command);
+
+  if (!command) {
+    await context.sendText('Much confused');
+    await help(context);
+  } else {
+    await command(context, blockIo, slackClient);
   }
 });
 
