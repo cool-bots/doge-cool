@@ -1,8 +1,13 @@
-const utils = require('../lib/utils');
+import { Context } from '../types/bottender';
+import utils from '../lib/utils';
 
-const validateAmount = amount => amount && amount > 0;
+const validateAmount = (amount: number | undefined) => amount && amount > 0;
 
-exports.rain = async (context, block_io, slackClient) => {
+export const rain = async (
+  context: Context,
+  block_io: any,
+  slackClient: any
+) => {
   const maxMembers = 5;
   const minCoinsPerMember = 2;
   const userId = context.session.user.id;
@@ -16,9 +21,9 @@ exports.rain = async (context, block_io, slackClient) => {
   }
   const members = await slackClient.getAllConversationMembers(channelId);
   const filteredMembers = members
-    .filter(member => member !== userId)
-    .filter(member => member !== botMemberId)
-    .filter(member => member !== botId);
+    .filter((member: any) => member !== userId)
+    .filter((member: any) => member !== botMemberId)
+    .filter((member: any) => member !== botId);
 
   const pickedMembers = utils.getRandomArrayElements(
     filteredMembers,
@@ -42,7 +47,7 @@ exports.rain = async (context, block_io, slackClient) => {
         .join(), //''6,6,6'
       pin: process.env.BLOCK_IO_SECRET_PIN,
     },
-    async (error, data) => {
+    async (error: any, data: any) => {
       // error.message
       if (error) {
         let errorToThrow = error;
@@ -55,7 +60,7 @@ exports.rain = async (context, block_io, slackClient) => {
       }
       return context.sendText(
         `${utils.generateCongrats()} ${pickedMembers.map(
-          member => `<@${member}>`
+          (member: string) => `<@${member}>`
         )} you just received ${amount /
           pickedMembers.length} doge. ${utils.generateWow()}`
       );

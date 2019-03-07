@@ -1,12 +1,15 @@
-const utils = require('../lib/utils');
+import { Context } from '../types/bottender';
+import utils from '../lib/utils';
 
-exports.random = async (context, block_io, slackClient) => {
+exports.random = async (context: Context, block_io: any, slackClient: any) => {
   const minCoins = 2;
   const userId = context.session.user.id;
   const channelId = context.session.channel.id;
-  let members = await slackClient.getAllConversationMembers(channelId);
-  let [, , amount] = context.event.text.split(' ');
-  amount = Number(amount);
+  let members: string[] = await slackClient.getAllConversationMembers(
+    channelId
+  );
+  let [, , amountText] = context.event.text.split(' ');
+  const amount = Number(amountText);
 
   // Remove the current user and the bot so it does not get a shower
   members = members.filter(
@@ -24,7 +27,7 @@ exports.random = async (context, block_io, slackClient) => {
         amount: amount,
         pin: process.env.BLOCK_IO_SECRET_PIN,
       },
-      async (error, data) => {
+      async (error: Error | undefined, data: any) => {
         console.log(data);
         if (error) return console.log('Error occured:', error.message);
         await context.sendText(

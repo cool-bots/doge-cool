@@ -1,11 +1,12 @@
-const utils = require('../lib/utils');
+import utils from '../lib/utils';
+import { Context } from '../types/bottender';
 
-exports.tip = async (context, block_io) => {
+exports.tip = async (context: Context, block_io: any) => {
   let [, , toLabel, amount] = context.event.text.split(' ');
   const myLabel = context.session.user.id;
   toLabel = toLabel.replace(/[<>@]/g, '');
 
-  if (amount < 2) {
+  if (Number(amount) < 2) {
     return context.sendText(
       `Come on, don't be stingy! I can't even pay the network rent with that!. ${utils.generateWow()}`
     );
@@ -18,7 +19,7 @@ exports.tip = async (context, block_io) => {
       amount: amount,
       pin: process.env.BLOCK_IO_SECRET_PIN,
     },
-    async (error, data) => {
+    async (error: any, data: any) => {
       if (error) {
         let errorToThrow = error;
 

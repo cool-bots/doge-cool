@@ -39,6 +39,7 @@ const commands = {
   help: help,
   tip: tip,
   rain: rain,
+  random: random,
 };
 
 bot.onEvent(async context => {
