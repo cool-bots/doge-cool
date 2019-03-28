@@ -23,14 +23,14 @@ module.exports = (bot: any, blockIo: any) => {
     const addressesResponse: any = await getAddresses();
     const addresses = addressesResponse.data.addresses;
     // const {members} = await bot.getAllUserList();
-    const members = await bot.getAllConversationMembers('GANB38LD8');
+    const members = await bot.getAllConversationMembers('C032URY7X');
     const existingLabels = addresses.map((a: any) => a.label);
     const addresslessMembers = members.filter(
-      (m: any) => !existingLabels.includes(m /*.id*/)
+      (id: any) => !existingLabels.includes(id)
     );
 
     return Promise.all(
-      addresslessMembers.map((m: any) => getNewAddress({ label: m /*.id*/ }))
+      addresslessMembers.map((id: any) => getNewAddress({ label: id }))
     );
   };
 
