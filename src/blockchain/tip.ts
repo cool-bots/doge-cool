@@ -1,9 +1,14 @@
 import * as utils from '../lib/utils';
 import { Context } from '../types/bottender';
 import { withdrawFromLabels } from '../lib/blockIo';
+import { help } from './help';
 
 exports.tip = async (context: Context, block_io: any) => {
   let [, , toLabel, amount] = context.event.text.split(' ');
+  if (!toLabel || !amount) {
+    help(context);
+    return;
+  }
   const myLabel = context.session.user.id;
   toLabel = toLabel.replace(/[<>@]/g, '');
 

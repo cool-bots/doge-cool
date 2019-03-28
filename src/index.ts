@@ -53,7 +53,7 @@ bot.onEvent(async (context: Context) => {
   if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
     // Unless @cooldoge is mentioned, don't react
     if (
-      !context.event.text &&
+      context.event.text &&
       !context.event.text.includes(`<@${process.env.BOT_USER_ID}>`)
     ) {
       return;
