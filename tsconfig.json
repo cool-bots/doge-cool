@@ -9,6 +9,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "rootDir": "src",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "module": "commonjs"
   }
 }
