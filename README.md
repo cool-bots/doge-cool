@@ -11,10 +11,6 @@ SLACK_TOKEN=xoxb-.....
 BOT_USER_ID=UAN8W2V6X
 ```
 
-## TODO
-
-- create users wallets on startup with labels are slack user id
-
 ### In public / private channels
 
 - `tip <username> <amount>` - gives amount to specified user
