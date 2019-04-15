@@ -15,7 +15,7 @@ export const help = async (context: Context) => {
     
     - If you want to know your balance, send a DM to @cooldoge with "balance" as message
     - If you want to know your deposit more dogecoin, send a DM to @cooldoge with "deposit" as message
-    - If you want to know your withdraw your dogecoin to your private wallet, send a DM to @cooldoge with "withdraw" as message
+    - If you want to know your withdraw address to withdraw your dogecoin to your private wallet, send a DM to @cooldoge with "withdraw" as message
     
     For more nerdiness here:
     https://github.com/cool-bots/doge-cool`
