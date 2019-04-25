@@ -1,3 +1,5 @@
+import { getChannelMembers } from '../lib/members';
+
 module.exports = (bot: any, blockIo: any) => {
   const getAddresses = () =>
     new Promise((resolve, reject) => {
@@ -23,7 +25,10 @@ module.exports = (bot: any, blockIo: any) => {
     const addressesResponse: any = await getAddresses();
     const addresses = addressesResponse.data.addresses;
     // const {members} = await bot.getAllUserList();
-    const members = await bot.getAllConversationMembers('C032URY7X');
+    const members = await getChannelMembers(
+      bot,
+      process.env.GENERAL_CHANNEL_ID!
+    );
     const existingLabels = addresses.map((a: any) => a.label);
     const addresslessMembers = members.filter(
       (id: any) => !existingLabels.includes(id)
