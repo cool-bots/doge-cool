@@ -1,13 +1,12 @@
 import { Context } from '../types/bottender';
 import * as utils from '../lib/utils';
+import { getChannelMembers } from '../lib/members';
 
 exports.random = async (context: Context, block_io: any, slackClient: any) => {
   const minCoins = 2;
   const userId = context.session.user.id;
   const channelId = context.session.channel.id;
-  let members: string[] = await slackClient.getAllConversationMembers(
-    channelId
-  );
+  let members: string[] = await getChannelMembers(slackClient, channelId);
   let [, , amountText] = context.event.text.split(' ');
   const amount = Number(amountText);
 
@@ -31,7 +30,7 @@ exports.random = async (context: Context, block_io: any, slackClient: any) => {
         console.log(data);
         if (error) return console.log('Error occured:', error.message);
         await context.sendText(
-          `${utils.generateCongrats()} <Much luck! @${member}> you just received ${amount} doge. ${utils.generateWow()}`
+          `${utils.generateCongrats()} Much luck! <@${member}> you just received ${amount} doge. ${utils.generateWow()}`
         );
       }
     );

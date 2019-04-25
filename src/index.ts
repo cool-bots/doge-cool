@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { Context } from './types/bottender';
+import { getChannelMembers } from './lib/members';
 
 const { SlackBot } = require('bottender');
 const { createServer } = require('bottender/express');
@@ -78,10 +79,6 @@ bot.onEvent(async (context: Context) => {
   } else {
     return;
   }
-
-  console.log('context.event.text', context.event.text);
-  console.log('commandText', commandText);
-  console.log('command', !!command);
 
   if (!command) {
     await context.sendText('Much confused');

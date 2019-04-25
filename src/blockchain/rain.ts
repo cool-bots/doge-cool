@@ -1,5 +1,6 @@
 import { Context } from '../types/bottender';
 import * as utils from '../lib/utils';
+import { getChannelMembers } from '../lib/members';
 
 const validateAmount = (amount: number | undefined) => amount && amount > 0;
 
@@ -19,7 +20,7 @@ export const rain = async (
   if (!validateAmount(amount)) {
     return context.sendText(`:( Amount not valid`);
   }
-  const members = await slackClient.getAllConversationMembers(channelId);
+  const members = await getChannelMembers(slackClient, channelId);
   const filteredMembers = members
     .filter((member: any) => member !== userId)
     .filter((member: any) => member !== botMemberId)
