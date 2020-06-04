@@ -1,14 +1,14 @@
 import { Context } from '../types/bottender';
-import * as utils from '../lib/utils';
-import { getChannelMembers } from '../lib/members';
+import {
+  generateWow,
+  generateCongrats,
+  getRandomArrayElements,
+} from '../lib/utils';
+import getChannelMembers from '../lib/members';
 
 const validateAmount = (amount: number | undefined) => amount && amount > 0;
 
-export const rain = async (
-  context: Context,
-  block_io: any,
-  slackClient: any
-) => {
+const rain = async (context: Context, block_io: any, slackClient: any) => {
   const maxMembers = 5;
   const minCoinsPerMember = 2;
   const userId = context.session.user.id;
@@ -26,10 +26,7 @@ export const rain = async (
     .filter((member: any) => member !== botMemberId)
     .filter((member: any) => member !== botId);
 
-  const pickedMembers = utils.getRandomArrayElements(
-    filteredMembers,
-    maxMembers
-  );
+  const pickedMembers = getRandomArrayElements(filteredMembers, maxMembers);
 
   if (amount < pickedMembers.length * minCoinsPerMember) {
     return await context.sendText(`You are too stingy`);
@@ -60,11 +57,13 @@ export const rain = async (
         return context.sendText(`Oh no!!! ${errorToThrow}`);
       }
       return context.sendText(
-        `${utils.generateCongrats()} ${pickedMembers.map(
+        `${generateCongrats()} ${pickedMembers.map(
           (member: string) => `<@${member}>`
         )} you just received ${amount /
-          pickedMembers.length} doge. ${utils.generateWow()}`
+          pickedMembers.length} doge. ${generateWow()}`
       );
     }
   );
 };
+
+export default rain;

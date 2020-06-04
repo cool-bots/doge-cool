@@ -1,8 +1,12 @@
 import { Context } from '../types/bottender';
-import * as utils from '../lib/utils';
-import { getChannelMembers } from '../lib/members';
+import {
+  generateWow,
+  generateCongrats,
+  getRandomArrayElements,
+} from '../lib/utils';
+import getChannelMembers from '../lib/members';
 
-exports.random = async (context: Context, block_io: any, slackClient: any) => {
+const random = async (context: Context, block_io: any, slackClient: any) => {
   const minCoins = 2;
   const userId = context.session.user.id;
   const channelId = context.session.channel.id;
@@ -18,7 +22,7 @@ exports.random = async (context: Context, block_io: any, slackClient: any) => {
   if (amount < minCoins) {
     await context.sendText(`Much sad! Not enough doge :( `);
   } else {
-    const member = utils.getRandomArrayElements(members, 1);
+    const member = getRandomArrayElements(members, 1);
     block_io.withdraw_from_labels(
       {
         from_labels: context.session.user.id,
@@ -30,9 +34,11 @@ exports.random = async (context: Context, block_io: any, slackClient: any) => {
         console.log(data);
         if (error) return console.log('Error occured:', error.message);
         await context.sendText(
-          `${utils.generateCongrats()} Much luck! <@${member}> you just received ${amount} doge. ${utils.generateWow()}`
+          `${generateCongrats()} Much luck! <@${member}> you just received ${amount} doge. ${generateWow()}`
         );
       }
     );
   }
 };
+
+export default random;
