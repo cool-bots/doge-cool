@@ -1,6 +1,7 @@
 import { Context } from '../types/bottender';
 
-export const help = async (context: Context) => {
+const help = async (context: Context) => {
+  console.log('help');
   await context.sendText(
     `Much useful. Very help. 
     
@@ -15,9 +16,11 @@ export const help = async (context: Context) => {
     
     - If you want to know your balance, send a DM to @cooldoge with "balance" as message
     - If you want to know your deposit more dogecoin, send a DM to @cooldoge with "deposit" as message
-    - If you want to know your withdraw your dogecoin to your private wallet, send a DM to @cooldoge with "withdraw address amount" as message
+    - If you want to withdraw your dogecoin to your private wallet, send a DM to @cooldoge with "withdraw address amount" as message
     
     For more nerdiness here:
     https://github.com/cool-bots/doge-cool`
   );
 };
+
+export default help;

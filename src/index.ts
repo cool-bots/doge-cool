@@ -1,22 +1,20 @@
 import dotenv from 'dotenv';
-
 dotenv.config();
 
-import { Context } from './types/bottender';
-import { getChannelMembers } from './lib/members';
+// @ts-ignore
+import { SlackBot } from 'bottender';
+// @ts-ignore
+import { createServer } from 'bottender/express';
+// @ts-ignore
+import { SlackOAuthClient } from 'messaging-api-slack';
+// @ts-ignore
+import { pick } from 'lodash';
+// @ts-ignore
+import BlockIo from 'block_io';
 
-const { SlackBot } = require('bottender');
-const { createServer } = require('bottender/express');
-const { SlackOAuthClient } = require('messaging-api-slack');
-const BlockIo = require('block_io');
-const { pick } = require('lodash');
-const { deposit } = require('./blockchain/deposit');
-const { withdraw } = require('./blockchain/withdraw');
-const { balance } = require('./blockchain/balance');
-const { tip } = require('./blockchain/tip');
-const { rain } = require('./blockchain/rain');
-const { help } = require('./blockchain/help');
-const { random } = require('./blockchain/random');
+import { Context } from './types/bottender';
+import { commands } from './commands';
+import CreateAddresses from './lib/createAddresses';
 
 const blockIo = new BlockIo(
   process.env.BLOCK_IO_API_KEY,
@@ -31,25 +29,11 @@ const bot = new SlackBot({
   verificationToken: process.env.SLACK_VERIFICATION_TOKEN,
 });
 
-const createAddresses = require('./blockchain/createAddresses')(
-  slackClient,
-  blockIo
-);
-
-const commands = {
-  balance: balance,
-  deposit: deposit,
-  withdraw: withdraw,
-  help: help,
-  tip: tip,
-  rain: rain,
-  random: random,
-};
+const createAddresses = CreateAddresses(slackClient, blockIo);
 
 bot.onEvent(async (context: Context) => {
   let command;
   let commandText;
-
   // Public / Private channels
   if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
     // Unless @cooldoge is mentioned, don't react
@@ -82,7 +66,7 @@ bot.onEvent(async (context: Context) => {
 
   if (!command) {
     await context.sendText('Much confused');
-    await help(context);
+    await commands.help(context);
   } else {
     await command(context, blockIo, slackClient);
   }

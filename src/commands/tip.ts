@@ -1,9 +1,9 @@
-import * as utils from '../lib/utils';
+import { generateWow, generateCongrats } from '../lib/utils';
 import { Context } from '../types/bottender';
-import { withdrawFromLabels } from '../lib/blockIo';
-import { help } from './help';
+import { withdrawFromLabels } from '../integrations/blockIo';
+import help from './help';
 
-exports.tip = async (context: Context, block_io: any) => {
+const tip = async (context: Context) => {
   let [, , toLabel, amount] = context.event.text.split(' ');
   if (!toLabel || !amount) {
     help(context);
@@ -14,7 +14,7 @@ exports.tip = async (context: Context, block_io: any) => {
 
   if (Number(amount) < 2) {
     return context.sendText(
-      `Come on, don't be stingy! I can't even pay the network rent with that!. ${utils.generateWow()}`
+      `Come on, don't be stingy! I can't even pay the network rent with that!. ${generateWow()}`
     );
   }
 
@@ -26,7 +26,7 @@ exports.tip = async (context: Context, block_io: any) => {
     });
 
     await context.sendText(
-      `${utils.generateCongrats()} <@${toLabel}> you just received ${amount} doge. ${utils.generateWow()}`
+      `${generateCongrats()} <@${toLabel}> you just received ${amount} doge. ${generateWow()}`
     );
   } catch (error) {
     if (
@@ -39,3 +39,5 @@ exports.tip = async (context: Context, block_io: any) => {
     return context.sendText(`Oh no!!! ${error}`);
   }
 };
+
+export default tip;

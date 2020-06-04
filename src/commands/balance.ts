@@ -1,8 +1,8 @@
 import { Context } from '../types/bottender';
-import { getAddressByLabel } from '../lib/blockIo';
+import { getAddressByLabel } from '../integrations/blockIo';
 import * as utils from '../lib/utils';
 
-export const balance = async (context: Context) => {
+const balance = async (context: Context) => {
   const label = context.session.user.id;
   const data = await getAddressByLabel(label);
   await context.sendText(
@@ -11,3 +11,5 @@ export const balance = async (context: Context) => {
     } doge. ${utils.generateWow()}`
   );
 };
+
+export default balance;
