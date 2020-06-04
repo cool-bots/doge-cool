@@ -1,7 +1,4 @@
-export const getChannelMembers = async (
-  slackClient: any,
-  channelId: string
-) => {
+const getChannelMembers = async (slackClient: any, channelId: string) => {
   const allMembers = await slackClient.getUserList({
     limit: 1000,
   });
@@ -16,3 +13,5 @@ export const getChannelMembers = async (
     deactivatedMembers.has(member)
   );
 };
+
+export default getChannelMembers;

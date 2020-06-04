@@ -1,5 +1,5 @@
-const muchSentences = require('./muchSentences.json');
-const muchCongrats = require('./muchCongrats.json');
+import muchSentences from './muchSentences.json';
+import muchCongrats from './muchCongrats.json';
 
 export const getRandomArrayElements = (arr: any, count: any) => {
   if (arr.length <= count) {
