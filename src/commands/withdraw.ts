@@ -2,7 +2,7 @@ import * as utils from '../lib/utils';
 import { getAddressByLabel } from '../integrations/blockIo';
 import { Context } from '../types/bottender';
 import help from './help';
-// import coinstring from 'coinstring';
+import coinstring from 'coinstring';
 import { promisify } from 'util';
 
 export const withdraw = async (context: Context, blockIo: any) => {
@@ -30,13 +30,13 @@ export const withdraw = async (context: Context, blockIo: any) => {
     return;
   }
 
-  // var isValid = coinstring.validate(0x1e, toAddress);
-  // if (!isValid) {
-  //   await context.sendText(
-  //     `Oh no, much typo in your address. It can't be ${toAddress} ?!`
-  //   );
-  //   return;
-  // }
+  var isValid = coinstring.validate(0x1e, toAddress);
+  if (!isValid) {
+    await context.sendText(
+      `Oh no, much typo in your address. It can't be ${toAddress} ?!`
+    );
+    return;
+  }
 
   try {
     await promisify(blockIo.withdraw_from_labels)({
