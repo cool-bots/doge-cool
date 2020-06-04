@@ -1,6 +1,6 @@
 import { Context } from '../types/bottender';
 
-export const help = async (context: Context) => {
+const help = async (context: Context) => {
   await context.sendText(
     `Much useful. Very help. 
     
@@ -21,3 +21,5 @@ export const help = async (context: Context) => {
     https://github.com/cool-bots/doge-cool`
   );
 };
+
+export default help;

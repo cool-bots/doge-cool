@@ -1,6 +1,7 @@
-import { getChannelMembers } from '../lib/members';
+import getChannelMembers from './members';
 
-module.exports = (bot: any, blockIo: any) => {
+// TODO Fix method name
+const CreateAddresses = (bot: any, blockIo: any) => {
   const getAddresses = () =>
     new Promise((resolve, reject) => {
       blockIo.get_my_addresses({}, (err: any, res: any) => {
@@ -41,3 +42,5 @@ module.exports = (bot: any, blockIo: any) => {
 
   return createAddresses;
 };
+
+export default CreateAddresses;
