@@ -1,0 +1,5 @@
+FROM node:12-alpine
+WORKDIR /opt/app
+RUN yarn
+
+CMD ["yarn", "dev"]

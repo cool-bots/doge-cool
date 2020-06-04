@@ -1,0 +1,19 @@
+version: "3"
+services:
+  doge-cool:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./:/opt/app
+  ngrok:
+    image: wernight/ngrok
+    command: ./start-ngrok.sh
+    env_file:
+      - ./.env
+      - ./dev.env
+    volumes:
+      - $HOME/.ngrok2/:/home/ngrok/.ngrok2/
+      - ./start-ngrok.sh:/start-ngrok.sh
+    depends_on:
+      - doge-cool
