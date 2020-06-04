@@ -9,6 +9,7 @@ import { createServer } from 'bottender/express';
 import { SlackOAuthClient } from 'messaging-api-slack';
 // @ts-ignore
 import { pick } from 'lodash';
+// @ts-ignore
 import BlockIo from 'block_io';
 
 import { Context } from './types/bottender';
