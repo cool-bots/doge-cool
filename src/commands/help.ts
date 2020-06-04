@@ -1,7 +1,6 @@
 import { Context } from '../types/bottender';
 
 const help = async (context: Context) => {
-  console.log('help');
   await context.sendText(
     `Much useful. Very help. 
     
