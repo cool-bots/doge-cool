@@ -26,6 +26,7 @@
   "dependencies": {
     "block_io": "2.0.0",
     "bottender": "0.14.34",
+    "coinstring": "^0.2.0",
     "dotenv": "6.2.0",
     "lodash": "4.17.11",
     "messaging-api-slack": "0.7.11",
