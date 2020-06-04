@@ -6,7 +6,11 @@
     "dev": "nodemon --watch src --ext ts,js --exec 'ts-node' src/index.ts",
     "prettier": "prettier --write '**/*.{js,ts,tsx,json,md}'",
     "precommit": "pretty-quick --staged",
-    "start": "sh app.sh"
+    "build": "yarn tsc && cp src/lib/*.json build/lib/ && cp package.json build/package.json",
+    "start": "node build/index.js",
+    "dev:docker": "docker-compose -f docker-compose.dev.yml up",
+    "build:docker": "docker build -t doge-cool -f Dockerfile .",
+    "start:docker": "yarn build:docker && docker-compose up"
   },
   "prettier": {
     "singleQuote": true,
@@ -28,8 +32,7 @@
     "bottender": "0.14.34",
     "dotenv": "6.2.0",
     "lodash": "4.17.11",
-    "messaging-api-slack": "0.7.11",
-    "ngrok": "3.1.1"
+    "messaging-api-slack": "0.7.11"
   },
   "devDependencies": {
     "@types/dotenv": "6.1.0",
