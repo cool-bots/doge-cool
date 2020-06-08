@@ -1,11 +1,13 @@
-// @ts-nocheck
-
 import dotenv from 'dotenv';
 dotenv.config();
 
+// @ts-ignore
 import { SlackBot } from 'bottender';
+// @ts-ignore
 import { createServer } from 'bottender/express';
+// @ts-ignore
 import { SlackOAuthClient } from 'messaging-api-slack';
+// @ts-ignore
 import { pick } from 'lodash';
 import BlockIo from 'block_io';
 
