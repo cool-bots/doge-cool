@@ -1,7 +1,7 @@
+import help from './help';
 import * as utils from '../lib/utils';
 import { getAddressByLabel } from '../integrations/blockIo';
 import { Context } from '../types/bottender';
-import help from './help';
 
 export const withdraw = async (context: Context, blockIo: any) => {
   const fromLabel = context.session.user.id;
