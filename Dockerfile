@@ -1,9 +1,10 @@
-FROM node:8-alpine
-
+FROM node:12-alpine
 WORKDIR /opt/app
-COPY . /opt/app
+COPY ./ /opt/app/
+RUN yarn && yarn build
 
-RUN npm i
-RUN npm i -g forever
-
-ENTRYPOINT sh /opt/app/app.sh
+FROM node:12-alpine
+WORKDIR /opt/app
+COPY --from=0 /opt/app/build /opt/app/
+RUN yarn --production && yarn cache clean
+CMD ["node", "index.js"]
