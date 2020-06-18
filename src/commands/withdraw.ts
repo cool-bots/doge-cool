@@ -8,7 +8,7 @@ export const withdraw = async (context: Context, blockIo: any) => {
   const fromAddress = await getAddressByLabel(fromLabel);
   const availableBalance = Number(fromAddress.data.available_balance);
 
-  let [, , toAddress, amount] = context.event.text.split(' ');
+  const [, toAddress, amount] = context.event.text.split(' ');
   if (!toAddress || !amount || isNaN(+amount)) {
     help(context);
     return;
