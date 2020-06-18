@@ -15,7 +15,7 @@ GENERAL_CHANNEL_ID=YOUR_GENERAL_CHANNEL
 `dev.env` should look like this:
 
 ```shell
-NGROK_ACCOUNT=YOURNAME-bitwaladev
+NGROK_ACCOUNT=YOUR_NGROK_ACCOUNT
 HOST=doge-cool
 PORT=3000
 ```
