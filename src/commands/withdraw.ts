@@ -50,7 +50,6 @@ export const withdraw = async (context: Context, blockIo: any) => {
         if (error) {
           return reject(error);
         }
-        context.sendText('Successful withdrawal');
         resolve();
       };
     });
