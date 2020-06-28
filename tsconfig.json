@@ -1,15 +1,19 @@
 {
+  "include": ["src/**/*"],
+  "exclude": ["**/__tests__", "**/*.{spec,test}.ts"],
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2016",
+    "lib": ["es2017", "es2018", "es2019", "es2020", "esnext.asynciterable"],
+    "module": "commonjs",
+    "skipLibCheck": true,
     "moduleResolution": "node",
-    "lib": ["esnext"],
-    "outDir": "build",
-    "allowJs": true,
     "esModuleInterop": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "rootDir": "src",
     "resolveJsonModule": true,
-    "module": "commonjs"
+    "isolatedModules": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "types": ["node", "jest"]
   }
 }

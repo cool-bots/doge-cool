@@ -3,10 +3,10 @@
   "private": true,
   "repository": "https://github.com/cool-bots/doge-cool.git",
   "scripts": {
-    "dev": "nodemon --watch src --ext ts,js --exec 'ts-node' src/index.ts",
+    "dev": "bottender dev",
     "prettier": "prettier --write '**/*.{js,ts,tsx,json,md}'",
     "precommit": "pretty-quick --staged",
-    "start": "sh app.sh"
+    "start": "bottender start"
   },
   "prettier": {
     "singleQuote": true,
@@ -24,20 +24,23 @@
     ]
   },
   "dependencies": {
-    "block_io": "2.0.0",
-    "bottender": "0.14.34",
-    "dotenv": "6.2.0",
-    "lodash": "4.17.13",
-    "messaging-api-slack": "0.7.11",
-    "ngrok": "3.1.1"
+    "block_io": "2.0.3",
+    "bottender": "1.4.7"
   },
   "devDependencies": {
-    "@types/dotenv": "6.1.0",
-    "husky": "1.3.1",
-    "lint-staged": "8.0.3",
-    "nodemon": "1.18.9",
-    "prettier": "1.16.4",
-    "ts-node": "8.0.2",
-    "typescript": "3.3.1"
+    "@types/jest": "26.0.3",
+    "@typescript-eslint/eslint-plugin": "3.4.0",
+    "@typescript-eslint/parser": "3.4.0",
+    "eslint": "7.3.1",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-import": "2.22.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "husky": "4.2.5",
+    "jest": "26.1.0",
+    "lint-staged": "10.2.11",
+    "prettier": "2.0.5",
+    "ts-jest": "26.1.1",
+    "ts-node": "8.10.2",
+    "typescript": "3.9.4"
   }
 }
