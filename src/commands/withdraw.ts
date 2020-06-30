@@ -14,16 +14,10 @@ export const withdraw = async (context: Context, blockIo: any) => {
     return;
   }
 
-  if (availableBalance < +amount) {
+  // 2 doge are left to make sure to cover the fees
+  if (availableBalance + 2 < +amount) {
     await context.sendText(
-      `Looks like this amount is above your balance - you only have ${availableBalance} doge!`
-    );
-    return;
-  }
-
-  if (+amount < 2) {
-    await context.sendText(
-      `Such low amount! Much too low to cover fees! ${utils.generateWow()}`
+      `Looks like this amount is above your balance (+ 2 doge to cover fees) - you only have ${availableBalance} doge!`
     );
     return;
   }
