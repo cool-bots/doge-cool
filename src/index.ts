@@ -34,7 +34,6 @@ const createAddresses = CreateAddresses(slackClient, blockIo);
 bot.onEvent(async (context: Context) => {
   let command;
   let commandText;
-
   // Public / Private channels
   if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
     // Unless @cooldoge is mentioned, don't react

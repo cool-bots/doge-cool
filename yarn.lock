@@ -46,6 +46,13 @@
     url-join "^4.0.0"
     ws "^4.1.0"
 
+"@types/coinstring@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@types/coinstring/-/coinstring-2.3.0.tgz#1c3e71aa8f98520d8528e1021348db793e8b451f"
+  integrity sha1-HD5xqo+YUg2FKOECE0jbeT6LRR8=
+  dependencies:
+    "@types/node" "*"
+
 "@types/delay@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/delay/-/delay-2.0.1.tgz#61bcf318a74b61e79d1658fbf054f984c90ef901"
@@ -553,6 +560,11 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+bigi@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/bigi/-/bigi-0.2.0.tgz#8bee26348b99c4ae2ed20481fb12384c32792f74"
+  integrity sha1-i+4mNIuZxK4u0gSB+xI4TDJ5L3Q=
+
 bigi@=1.4.2, bigi@^1.1.0, bigi@^1.4.0:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/bigi/-/bigi-1.4.2.tgz#9c665a95f88b8b08fc05cfd731f561859d725825"
@@ -568,6 +580,11 @@ binary@^0.3.0:
   dependencies:
     buffers "~0.1.1"
     chainsaw "~0.1.0"
+
+binstring@0.2.x, binstring@~0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/binstring/-/binstring-0.2.1.tgz#8a174d301f6d54efda550dd98bb4cb524eacd75d"
+  integrity sha1-ihdNMB9tVO/aVQ3Zi7TLUk6s110=
 
 bitcoinjs-lib@=1.5.6:
   version "1.5.6"
@@ -704,6 +721,14 @@ braces@^2.3.1, braces@^2.3.2:
     snapdragon-node "^2.0.1"
     split-string "^3.0.2"
     to-regex "^3.0.1"
+
+bs58@0.3.x:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/bs58/-/bs58-0.3.0.tgz#cb48107bf446727d3e17b21102da73ca89109588"
+  integrity sha1-y0gQe/RGcn0+F7IRAtpzyokQlYg=
+  dependencies:
+    bigi "0.2.0"
+    binstring "~0.2.0"
 
 bs58@^3.1.0:
   version "3.1.0"
@@ -999,6 +1024,14 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
+coinstring@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/coinstring/-/coinstring-0.2.0.tgz#fa2820497bb9e35b7cfa116f048219ca6f3f348f"
+  integrity sha1-+iggSXu541t8+hFvBIIZym8/NI8=
+  dependencies:
+    bs58 "0.3.x"
+    crypto-hashing "~0.3.0"
+
 collection-visit@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/collection-visit/-/collection-visit-1.0.0.tgz#4bc0373c164bc3291b4d368c829cf1a80a59dca0"
@@ -1155,6 +1188,14 @@ cross-spawn@^6.0.0, cross-spawn@^6.0.3:
     semver "^5.5.0"
     shebang-command "^1.2.0"
     which "^1.2.9"
+
+crypto-hashing@~0.3.0:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/crypto-hashing/-/crypto-hashing-0.3.1.tgz#0195548db8bdef50aa9d526514cc546e1e62fbce"
+  integrity sha1-AZVUjbi971CqnVJlFMxUbh5i+84=
+  dependencies:
+    binstring "0.2.x"
+    ripemd160 "~0.2.0"
 
 crypto-random-string@^1.0.0:
   version "1.0.0"
@@ -4234,6 +4275,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
+
+ripemd160@~0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/ripemd160/-/ripemd160-0.2.1.tgz#dee19248a3e1c815ff9aea39e753a337f56a243d"
+  integrity sha1-3uGSSKPhyBX/muo551OjN/VqJD0=
 
 run-async@^2.2.0:
   version "2.3.0"
