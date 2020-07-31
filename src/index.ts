@@ -29,8 +29,6 @@ const App = async (context: SlackContext): Promise<Action<SlackContext>> => {
 const handleAnyEvent = async (context: SlackContext) => {
   const { type } = context.event._rawEvent;
 
-  console.log(context.event._rawEvent);
-
   // Some one sent DM to bot
   if (context.event.isImMessage) {
     const data = await getAddressByLabel(context.event._rawEvent.user);
