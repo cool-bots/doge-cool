@@ -19,24 +19,17 @@ const sendDoge = async (
     return;
   }
 
-  // React to original message in channel
-  await context.client.callMethod('reactions.add', {
-    channel,
-    name: 'cool-doge',
-    timestamp,
-  });
-
-  // Notify the users
-  recipients.forEach(async (recipient: string) => {
-    await context.client.postMessage(
-      recipient,
-      `${generateCongrats()} <@${recipient}> you just received ${
-        amount / recipients.length
-      } doge from <@${sender}>. ${generateWow()}`
-    );
-  });
-
-  return;
+  if (
+    process.env.BOT_REACTION_EMOJI &&
+    typeof process.env.BOT_REACTION_EMOJI === 'string'
+  ) {
+    // React to original message in channel
+    await context.client.callMethod('reactions.add', {
+      channel,
+      name: 'cool-doge',
+      timestamp,
+    });
+  }
 
   block_io.withdraw_from_labels(
     {
@@ -71,12 +64,16 @@ const sendDoge = async (
 
       // Notify the users
       recipients.forEach(async (recipient: string) => {
-        await context.client.postMessage(
-          recipient,
-          `${generateCongrats()} <@${recipient}> you just received ${
-            amount / recipients.length
-          } doge from <@${sender}>. ${generateWow()}`
-        );
+        // Notify the users
+        recipients.forEach(async (recipient: string) => {
+          await context.client.chat.postEphemeral({
+            channel,
+            user: recipient,
+            text: `${generateCongrats()} <@${recipient}> you just received ${
+              amount / recipients.length
+            } doge from <@${sender}>. ${generateWow()}`,
+          });
+        });
       });
     }
   );

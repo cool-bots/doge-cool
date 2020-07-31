@@ -23,45 +23,39 @@ const App = async (context: SlackContext): Promise<Action<SlackContext>> => {
     await CreateAddresses(context.client, blockIo);
     isAddressesCreated = true;
   }
-
-  // Handle slash commands
-  if (context.event.isCommand) {
-    return handleSlashCommand;
-  }
-
   return router([slack.any(handleAnyEvent)]);
-};
-
-const handleSlashCommand = async (context: SlackContext) => {
-  const command = context.event._rawEvent.command;
-  const sender = context.event._rawEvent.U016AMQRVD2;
-  const data = await getAddressByLabel(sender);
-
-  switch (command) {
-    case '/balance':
-      await context.chat.postEphemeral({
-        text: `You currently have ${
-          data.data.available_balance
-        } doge. ${generateWow()}`,
-      });
-
-      break;
-    case '/deposit':
-      await context.chat.postEphemeral({
-        text: `Much doge! Please send some dogecoins here -> ${data.data.address}`,
-      });
-      break;
-    case '/withdraw':
-      await context.chat.postEphemeral({
-        text: 'Ehehehe no way!! :cool-doge:',
-      });
-
-      break;
-  }
 };
 
 const handleAnyEvent = async (context: SlackContext) => {
   const { type } = context.event._rawEvent;
+
+  console.log(context.event._rawEvent);
+
+  // Some one sent DM to bot
+  if (context.event.isImMessage) {
+    const data = await getAddressByLabel(context.event._rawEvent.user);
+    switch (context.event._rawEvent.text) {
+      case 'balance':
+        await context.chat.postEphemeral({
+          text: `You currently have ${
+            data.data.available_balance
+          } doge. ${generateWow()}`,
+        });
+        break;
+      case 'deposit':
+        await context.chat.postEphemeral({
+          text: `Much doge! Please send some dogecoins here -> ${data.data.address}`,
+        });
+        break;
+      case 'withdraw':
+        await context.chat.postEphemeral({
+          text: 'Ehehehe no way!! :cool-doge:',
+        });
+        break;
+      default:
+        help(context);
+    }
+  }
 
   // Handle bot mentions (probably someone wants to send some doge)
   if (type === MessageTypes.MENTION) {
