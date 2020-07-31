@@ -7,19 +7,30 @@
 ```
 BLOCK_IO_API_KEY=XXXXXXXXX
 BLOCK_IO_SECRET_PIN=XXXXXXX
-SLACK_TOKEN=xoxb-.....
-BOT_USER_ID=-----
+
+BOT_USER_ID=XXXXXXX
+BOT_DM_CHANNEL_ID=XXXXXXX
+BOT_CHANNEL_MEMBER_ID=XXXXXXX
+
 GENERAL_CHANNEL_ID=YOUR_GENERAL_CHANNEL
+
+SLACK_ACCESS_TOKEN=xoxb-...
+SLACK_SIGNING_SECRET=XXXXXXX
+
+BOT_REACTION_EMOJI = 'cool-doge';
+
+PORT=5000
 ```
 
 ### In public / private channels
 
 - `tip <username> <amount>` - gives amount to specified user
+- `tip <username1> <username2> <usernameN> <amount>` - gives amount to specified users
 - `rain <amount>` - Divides amount equally between participants (currently max. 5)
 - `random <amount>` - Randomly awards one person the specified amount
 
-### In `@cooldoge` private DM
+### Slash commands
 
-- `deposit` - return address
-- `balance` - shows balance
-- `withdraw <adress> <amount?>` - withdraws to address
+- `/deposit` - return address
+- `/balance` - shows balance
+- `/withdraw` - withdraws to address (not implemented yet)

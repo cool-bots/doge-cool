@@ -1,20 +1,13 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
-// @ts-ignore
-import { SlackBot } from 'bottender';
-// @ts-ignore
-import { createServer } from 'bottender/express';
-// @ts-ignore
-import { SlackOAuthClient } from 'messaging-api-slack';
-// @ts-ignore
-import { pick } from 'lodash';
-// @ts-ignore
+import { Action, SlackContext } from 'bottender';
+import { router, slack } from 'bottender/router';
 import BlockIo from 'block_io';
-
-import { Context } from './types/bottender';
-import { commands } from './commands';
+import { MessageTypes } from './types';
 import CreateAddresses from './lib/createAddresses';
+import getChannelMembers from './lib/members';
+import { getRandomArrayElements, generateWow } from './lib/utils';
+import sendDoge from './lib/sendDoge';
+import { getAddressByLabel } from './integrations/blockIo';
+import help from './lib/help';
 
 const blockIo = new BlockIo(
   process.env.BLOCK_IO_API_KEY,
@@ -22,80 +15,106 @@ const blockIo = new BlockIo(
   2
 );
 
-const slackClient = SlackOAuthClient.connect(process.env.SLACK_TOKEN);
+let isAddressesCreated = false;
 
-const bot = new SlackBot({
-  accessToken: process.env.SLACK_TOKEN,
-  verificationToken: process.env.SLACK_VERIFICATION_TOKEN,
-});
+const App = async (context: SlackContext): Promise<Action<SlackContext>> => {
+  // Create doge wallet for users if they don't have already
+  if (!isAddressesCreated) {
+    await CreateAddresses(context.client, blockIo);
+    isAddressesCreated = true;
+  }
+  return router([slack.any(handleAnyEvent)]);
+};
 
-const createAddresses = CreateAddresses(slackClient, blockIo);
+const handleAnyEvent = async (context: SlackContext) => {
+  const { type } = context.event._rawEvent;
 
-bot.onEvent(async (context: Context) => {
-  let command;
-  let commandText;
+  // Some one sent DM to bot
+  if (context.event.isImMessage) {
+    const data = await getAddressByLabel(context.event._rawEvent.user);
+    switch (context.event._rawEvent.text) {
+      case 'balance':
+        await context.chat.postEphemeral({
+          text: `You currently have ${
+            data.data.available_balance
+          } doge. ${generateWow()}`,
+        });
+        break;
+      case 'deposit':
+        await context.chat.postEphemeral({
+          text: `Much doge! Please send some dogecoins here -> ${data.data.address}`,
+        });
+        break;
+      case 'withdraw':
+        await context.chat.postEphemeral({
+          text: 'Ehehehe no way!! :cool-doge:',
+        });
+        break;
+      default:
+        help(context);
+    }
+  }
 
-  // Public / Private channels
-  if (context.event.isChannelsMessage || context.event.isGroupsMessage) {
-    // Unless @cooldoge is mentioned, don't react
-    if (
-      context.event.text &&
-      !context.event.text.includes(`<@${process.env.BOT_USER_ID}>`)
-    ) {
+  // Handle bot mentions (probably someone wants to send some doge)
+  if (type === MessageTypes.MENTION) {
+    const message = context.event._rawEvent.text;
+    const tipPattern = /(<@[\w]*>)(\s*)(tip)(\s*)((<@[\w]*>\s?)*)(\s*)(\d*)/gi;
+    const randomPattern = /(<@[\w]*>)(\s*)(random)(\s*)(\d*)/gi;
+    const rainPattern = /(<@[\w]*>)(\s*)(rain)(\s*)(\d*)/gi;
+
+    const tipMatches = [...message.matchAll(tipPattern)];
+    const randomMatches = [...message.matchAll(randomPattern)];
+    const rainMatches = [...message.matchAll(rainPattern)];
+
+    // TIP
+    if (tipMatches.length > 0) {
+      const amount = Number(tipMatches[0][8]);
+      const recipientsPart = tipMatches[0][5];
+      const recipientMatches = [...recipientsPart.matchAll(/(@[\w]*)/g)];
+      const recipients = recipientMatches.map((item) =>
+        item[0].replace('@', '')
+      );
+
+      if (amount < 2) {
+        await context.chat.postEphemeral({
+          text: `Come on, don't be stingy! I can't even pay the network rent with that!.`,
+        });
+        return;
+      }
+      await sendDoge(context, blockIo, recipients, amount);
       return;
     }
 
-    commandText = context.event.text
-      .trim()
-      .split(' ')[1]
-      .toLowerCase();
+    // RANDOM
+    if (randomMatches.length > 0) {
+      const amount = Number(randomMatches[0][5]);
+      const members: string[] = await getChannelMembers(context);
+      const pickedMember = getRandomArrayElements(members, 1);
+      await sendDoge(context, blockIo, pickedMember, amount);
+      return;
+    }
 
-    command = pick(commands, ['tip', 'rain', 'random', 'help'])[commandText];
+    // RAIN
+    if (rainMatches.length > 0) {
+      const maxMembers = 5;
+      const amount = rainMatches[0][5];
+      const members = await getChannelMembers(context);
+      const pickedMembers: string[] = getRandomArrayElements(
+        members,
+        maxMembers
+      );
+      await sendDoge(
+        context,
+        blockIo,
+        pickedMembers,
+        amount / pickedMembers.length
+      );
+      return;
+    }
 
-    // DM with @cooldoge
-  } else if (context.event.isText) {
-    commandText = context.event.text
-      .trim()
-      .split(' ')[0]
-      .toLowerCase();
-    command = pick(commands, ['balance', 'deposit', 'withdraw', 'help'])[
-      commandText
-    ];
-  } else {
-    return;
+    // Command mismatched. So, send help message to the user
+    help(context);
   }
+};
 
-  if (!command) {
-    await context.sendText('Much confused');
-    await commands.help(context);
-  } else {
-    await command(context, blockIo, slackClient);
-  }
-});
-
-const server = createServer(bot);
-
-server.listen(3000, async () => {
-  console.log(`
-    very pretty!          such cool!          more plz!
-        much awesome
-    wow                       very nodeJS
-  
-    __  __            _      __          ________          ___ 
-   |  \\/  |          | |     \\ \\        / / __ \\ \\        / / |
-   | \\  / |_   _  ___| |__    \\ \\  /\\  / / |  | \\ \\  /\\  / /| |
-   | |\\/| | | | |/ __| '_ \\    \\ \\/  \\/ /| |  | |\\ \\/  \\/ / | |
-   | |  | | |_| | (__| | | |    \\  /\\  / | |__| | \\  /\\  /  |_|
-   |_|  |_|\\__,_|\\___|_| |_|     \\/  \\/   \\____/   \\/  \\/   (_)
-                                                               
-                  wow                   code plz                      
-        epic bot        much rain                       very terminal
-   very swag!                                so wow!
-  `);
-
-  console.log('Much awesome! server is flipping on port 3000.');
-
-  setInterval(async () => await createAddresses(), 30000);
-});
-
-exports.bot = bot;
+export default App;
