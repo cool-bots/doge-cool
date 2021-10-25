@@ -24,7 +24,7 @@
     ]
   },
   "dependencies": {
-    "block_io": "3.0.0",
+    "block_io": "^4.0.0",
     "bottender": "0.14.34",
     "dotenv": "6.2.0",
     "lodash": "4.17.13",

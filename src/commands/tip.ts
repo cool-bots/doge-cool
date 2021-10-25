@@ -19,7 +19,7 @@ const tip = async (context: Context) => {
   }
 
   try {
-    const data = await sendToAddress(myLabel, toLabel, amount);
+    await sendToAddress(myLabel, toLabel, amount);
 
     await context.sendText(
       `${generateCongrats()} <@${toLabel}> you just received ${amount} doge. ${generateWow()}`

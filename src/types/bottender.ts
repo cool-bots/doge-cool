@@ -2,6 +2,7 @@ export interface Context {
   event: {
     text: string;
     isChannelsMessage: boolean;
+    channel: string;
     isGroupsMessage: boolean;
     isText: boolean;
   };

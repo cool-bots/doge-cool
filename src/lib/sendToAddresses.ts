@@ -14,6 +14,7 @@ export const sendToAddress = async (
     toLabel: toLabels,
     amount: amount,
   });
+
   console.log(JSON.stringify(preparedTransaction, null, 2));
 
   const signedTransaction = await createAndSignTransaction(preparedTransaction);
