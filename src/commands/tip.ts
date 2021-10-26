@@ -1,5 +1,5 @@
 import { generateWow, generateCongrats } from '../lib/utils';
-import { sendToAddress } from '../lib/sendToAddresses';
+import { sendToAddress } from '../lib/sendToAddress';
 import { Context } from '../types/bottender';
 import help from './help';
 

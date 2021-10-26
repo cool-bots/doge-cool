@@ -5,7 +5,7 @@ import {
   getRandomArrayElements,
 } from '../lib/utils';
 import getChannelMembers from '../lib/members';
-import { sendToAddress } from '../lib/sendToAddresses';
+import { sendToAddress } from '../lib/sendToAddress';
 
 const validateAmount = (amount: number | undefined) => amount && amount > 0;
 
@@ -37,12 +37,12 @@ const rain = async (context: Context, block_io: any, slackClient: any) => {
   console.log('the user id', userId);
   console.log('the members', pickedMembers.join());
 
+  const toLabels = pickedMembers.join();
+  const amountString = new Array(pickedMembers.length)
+    .fill(amount / pickedMembers.length)
+    .join();
   try {
-    await sendToAddress(
-      context.session.user.id,
-      pickedMembers.join(),
-      new Array(pickedMembers.length).fill(amount / pickedMembers.length).join()
-    );
+    await sendToAddress(userId, toLabels, amountString);
 
     return context.sendText(
       `${generateCongrats()} ${pickedMembers.map(

@@ -25,12 +25,11 @@ const CreateAddresses = (bot: any, blockIo: any) => {
   const createAddresses = async () => {
     const addressesResponse: any = await getAddresses();
     const addresses = addressesResponse.data.addresses;
-    // const {members} = await bot.getAllUserList();
     const members = await getChannelMembers(
       bot,
       process.env.GENERAL_CHANNEL_ID!
     );
-    members;
+
     const existingLabels = addresses.map((a: any) => a.label);
     const addresslessMembers = members.filter(
       (id: any) => !existingLabels.includes(id)
