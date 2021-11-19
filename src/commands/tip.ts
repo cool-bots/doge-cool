@@ -6,7 +6,6 @@ import help from './help';
 const tip = async (context: Context) => {
   let [, , toLabel, amount] = context.event.text.split(' ');
   if (!toLabel || !amount) {
-    help(context);
     return;
   }
   const myLabel = context.session.user.id;

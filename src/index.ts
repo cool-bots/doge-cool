@@ -67,7 +67,6 @@ bot.onEvent(async (context: Context) => {
 
   if (!command) {
     await context.sendText('Much confused');
-    await commands.help(context);
   } else {
     await command(context, blockIo, slackClient);
   }
