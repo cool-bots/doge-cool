@@ -37,7 +37,7 @@ const CreateAddresses = (bot: any, blockIo: any) => {
 
     let tasks = [];
     for (let i = 0; i < addresslessMembers.length; i++) {
-      const delay = 500 * i;
+      const delay = 1500 * i;
       tasks.push(
         new Promise(async function(resolve) {
           await new Promise(res => setTimeout(res, delay));
