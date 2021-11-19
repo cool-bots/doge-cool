@@ -1,12 +1,11 @@
 import { generateWow, generateCongrats } from '../lib/utils';
+import { sendToAddress } from '../lib/sendToAddress';
 import { Context } from '../types/bottender';
-import { withdrawFromLabels } from '../integrations/blockIo';
 import help from './help';
 
 const tip = async (context: Context) => {
   let [, , toLabel, amount] = context.event.text.split(' ');
   if (!toLabel || !amount) {
-    help(context);
     return;
   }
   const myLabel = context.session.user.id;
@@ -19,11 +18,7 @@ const tip = async (context: Context) => {
   }
 
   try {
-    await withdrawFromLabels({
-      fromLabels: myLabel,
-      toLabel: toLabel,
-      amount: amount,
-    });
+    await sendToAddress(myLabel, toLabel, amount);
 
     await context.sendText(
       `${generateCongrats()} <@${toLabel}> you just received ${amount} doge. ${generateWow()}`

@@ -67,7 +67,6 @@ bot.onEvent(async (context: Context) => {
 
   if (!command) {
     await context.sendText('Much confused');
-    await commands.help(context);
   } else {
     await command(context, blockIo, slackClient);
   }
@@ -95,7 +94,7 @@ server.listen(3000, async () => {
 
   console.log('Much awesome! server is flipping on port 3000.');
 
-  setInterval(async () => await createAddresses(), 30000);
+  setInterval(async () => await createAddresses(), 600000);
 });
 
 exports.bot = bot;

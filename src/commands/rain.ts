@@ -5,6 +5,7 @@ import {
   getRandomArrayElements,
 } from '../lib/utils';
 import getChannelMembers from '../lib/members';
+import { sendToAddress } from '../lib/sendToAddress';
 
 const validateAmount = (amount: number | undefined) => amount && amount > 0;
 
@@ -36,34 +37,28 @@ const rain = async (context: Context, block_io: any, slackClient: any) => {
   console.log('the user id', userId);
   console.log('the members', pickedMembers.join());
 
-  block_io.withdraw_from_labels(
-    {
-      from_labels: context.session.user.id,
-      to_labels: pickedMembers.join(), //'member,member,member'
-      amounts: new Array(pickedMembers.length)
-        .fill(amount / pickedMembers.length)
-        .join(), //''6,6,6'
-      pin: process.env.BLOCK_IO_SECRET_PIN,
-    },
-    async (error: any, data: any) => {
-      // error.message
-      if (error) {
-        let errorToThrow = error;
+  const toLabels = pickedMembers.join();
+  const amountString = new Array(pickedMembers.length)
+    .fill(amount / pickedMembers.length)
+    .join();
+  try {
+    await sendToAddress(userId, toLabels, amountString);
 
-        if (error.message.includes('Maximum withdrawable balance is')) {
-          errorToThrow = `You don't have enough funds! Please DM me to top up your balance...`;
-        }
+    return context.sendText(
+      `${generateCongrats()} ${pickedMembers.map(
+        (member: string) => `<@${member}>`
+      )} you just received ${amount /
+        pickedMembers.length} doge. ${generateWow()}`
+    );
+  } catch (error) {
+    let errorToThrow = error;
 
-        return context.sendText(`Oh no!!! ${errorToThrow}`);
-      }
-      return context.sendText(
-        `${generateCongrats()} ${pickedMembers.map(
-          (member: string) => `<@${member}>`
-        )} you just received ${amount /
-          pickedMembers.length} doge. ${generateWow()}`
-      );
+    if (error.message.includes('Maximum withdrawable balance is')) {
+      errorToThrow = `You don't have enough funds! Please DM me to top up your balance...`;
     }
-  );
+
+    return context.sendText(`Oh no!!! ${errorToThrow}`);
+  }
 };
 
 export default rain;

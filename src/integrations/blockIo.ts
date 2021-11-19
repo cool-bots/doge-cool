@@ -26,7 +26,7 @@ export const getAddressByLabel = (label: string): Promise<any> =>
     );
   });
 
-export const withdrawFromLabels = ({
+export const prepareTransaction = ({
   fromLabels,
   toLabel,
   amount,
@@ -35,17 +35,17 @@ export const withdrawFromLabels = ({
   toLabel: string;
   amount: number | string;
 }): Promise<any> =>
-  new Promise((resolve, reject) => {
-    blockIo.withdraw_from_labels(
-      {
-        from_labels: fromLabels,
-        to_label: toLabel,
-        amount: amount,
-        pin: process.env.BLOCK_IO_SECRET_PIN,
-      },
-      (error: Error | undefined, data: any) => {
-        if (error) return reject(error);
-        resolve(data);
-      }
-    );
+  blockIo.prepare_transaction({
+    from_labels: fromLabels,
+    to_label: toLabel,
+    amount: amount,
+    pin: process.env.BLOCK_IO_SECRET_PIN,
   });
+
+export const createAndSignTransaction = (
+  preparedTransaction: any
+): Promise<any> =>
+  blockIo.create_and_sign_transaction({ data: preparedTransaction });
+
+export const submitTransaction = (signedTransaction: any): Promise<any> =>
+  blockIo.submit_transaction({ transaction_data: signedTransaction });
