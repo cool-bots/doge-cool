@@ -35,9 +35,19 @@ const CreateAddresses = (bot: any, blockIo: any) => {
       (id: any) => !existingLabels.includes(id)
     );
 
-    return Promise.all(
-      addresslessMembers.map((id: any) => getNewAddress({ label: id }))
-    );
+    let tasks = [];
+    for (let i = 0; i < addresslessMembers.length; i++) {
+      const delay = 500 * i;
+      tasks.push(
+        new Promise(async function(resolve) {
+          await new Promise(res => setTimeout(res, delay));
+          const result = getNewAddress({ label: addresslessMembers[i] });
+          resolve(result);
+        })
+      );
+    }
+
+    return Promise.all(tasks);
   };
 
   return createAddresses;
