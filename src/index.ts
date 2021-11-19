@@ -95,7 +95,7 @@ server.listen(3000, async () => {
 
   console.log('Much awesome! server is flipping on port 3000.');
 
-  setInterval(async () => await createAddresses(), 30000);
+  setInterval(async () => await createAddresses(), 600000);
 });
 
 exports.bot = bot;
