@@ -5,6 +5,7 @@ import help from './help';
 import tip from './tip';
 import rain from './rain';
 import random from './random';
+import shush from './shush';
 
 export const commands = {
   balance,
@@ -14,4 +15,5 @@ export const commands = {
   tip,
   rain,
   random,
+  shush
 };

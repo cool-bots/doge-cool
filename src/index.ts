@@ -50,7 +50,7 @@ bot.onEvent(async (context: Context) => {
       .split(' ')[1]
       .toLowerCase();
 
-    command = pick(commands, ['tip', 'rain', 'random', 'help'])[commandText];
+    command = pick(commands, ['tip', 'rain', 'random', 'help', 'shush'])[commandText];
 
     // DM with @cooldoge
   } else if (context.event.isText) {
@@ -58,7 +58,7 @@ bot.onEvent(async (context: Context) => {
       .trim()
       .split(' ')[0]
       .toLowerCase();
-    command = pick(commands, ['balance', 'deposit', 'withdraw', 'help'])[
+    command = pick(commands, ['balance', 'deposit', 'withdraw', 'help', 'shush'])[
       commandText
     ];
   } else {
