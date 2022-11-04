@@ -1,5 +1,5 @@
 #!/bin/bash
 set -ex
 
-forever src/index.js
+ts-node src/index.ts
 
